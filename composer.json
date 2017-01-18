@@ -1,0 +1,14 @@
+{
+  "name": "drupal/islandora_image",
+  "type": "drupal-module",
+  "description": "Islandora Image",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/islandora_image",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/islandora_image",
+    "source": "http://cgit.drupalcode.org/islandora_image"
+  },
+  "require": { }
+}

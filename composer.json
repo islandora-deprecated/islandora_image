@@ -1,14 +1,17 @@
 {
   "name": "drupal/islandora_image",
-  "type": "drupal-module",
   "description": "Islandora Image",
-  "keywords": ["Drupal"],
-  "license": "GPL-2.0+",
-  "homepage": "https://www.drupal.org/project/islandora_image",
+  "type": "drupal-module",
   "minimum-stability": "dev",
+  "prefer-stable": true,
+  "keywords": ["Drupal", "Islandora"],
+  "license": "GPL-2.0+",
+  "homepage": "https://github.com/Islandora-CLAW/islandora_image",
   "support": {
-    "issues": "https://www.drupal.org/project/issues/islandora_image",
-    "source": "http://cgit.drupalcode.org/islandora_image"
+    "issues": "https://github.com/islandora-claw/CLAW/issues",
+    "irc": "irc://irc.freenode.net/islandora"
   },
-  "require": { }
+  "require": {
+    "islandora_islandora": "dev-8.x-1.x"
+  }
 }

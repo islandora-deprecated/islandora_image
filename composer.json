@@ -12,6 +12,6 @@
     "irc": "irc://irc.freenode.net/islandora"
   },
   "require": {
-    "islandora_islandora": "dev-8.x-1.x"
+    "islandora/islandora": "dev-8.x-1.x"
   }
 }

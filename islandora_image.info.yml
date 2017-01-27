@@ -3,3 +3,5 @@ type: module
 description: Islandora Image
 core: 8.x
 package: islandora
+dependencies:
+  - islandora

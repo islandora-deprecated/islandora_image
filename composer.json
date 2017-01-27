@@ -1,5 +1,5 @@
 {
-  "name": "drupal/islandora_image",
+  "name": "islandora/islandora_image",
   "description": "Islandora Image",
   "type": "drupal-module",
   "minimum-stability": "dev",

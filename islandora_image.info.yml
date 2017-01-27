@@ -1,0 +1,7 @@
+name: islandora_image
+type: module
+description: Islandora Image
+core: 8.x
+package: islandora
+dependencies:
+  - islandora

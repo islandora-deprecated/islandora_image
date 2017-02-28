@@ -1,0 +1,19 @@
+uuid: ac8f923c-9a71-4144-a73e-c738447dd246
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.fedora_resource.field_image_description
+    - islandora.fedora_resource_type.image
+id: fedora_resource.image.field_image_description
+field_name: field_image_description
+entity_type: fedora_resource
+bundle: image
+label: image_description
+description: 'Description of the image'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

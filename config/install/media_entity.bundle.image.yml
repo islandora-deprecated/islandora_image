@@ -1,0 +1,16 @@
+uuid: 3924c231-e5b3-4f29-b207-cb29599ca840
+langcode: en
+status: true
+dependencies:
+  module:
+    - media_entity_image
+id: image
+label: 'Islandora Image'
+description: 'Bundle for jpeg, JPEG 2000, tiff, gif, bmp, png images'
+type: image
+queue_thumbnail_downloads: false
+new_revision: false
+type_configuration:
+  source_field: field_image_storage
+  gather_exif: false
+field_map: {  }

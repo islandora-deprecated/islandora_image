@@ -7,6 +7,7 @@ dependencies:
     - media_entity.bundle.image
   module:
     - image
+    - islandora_image
 id: media.image.field_islandora_image
 field_name: field_islandora_image
 entity_type: media

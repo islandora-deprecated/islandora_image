@@ -1,0 +1,33 @@
+uuid: 0fe28dc0-ca4c-4c5c-9e99-35188c3e198d
+langcode: en
+status: true
+dependencies:
+  module:
+    - file
+    - image
+    - media_entity
+  enforced:
+    module:
+      - islandora_image
+id: media.field_islandora_image
+field_name: field_islandora_image
+entity_type: media
+type: image
+settings:
+  uri_scheme: public
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  target_type: file
+  display_field: false
+  display_default: false
+module: image
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

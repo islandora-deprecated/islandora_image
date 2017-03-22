@@ -6,3 +6,4 @@ package: islandora
 dependencies:
   - islandora
   - media_entity
+  - media_entity_image

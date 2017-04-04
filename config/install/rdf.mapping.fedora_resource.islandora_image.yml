@@ -1,0 +1,49 @@
+uuid: 179996d5-5197-4c8e-8b45-2b145e3534de
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_image
+  config:
+    - islandora.fedora_resource_type.islandora_image
+  module:
+    - islandora
+_core:
+  default_config_hash: qSjhMzfaZYZUfiOrXUFZuTRlAX1hwnVFzgRtkinoBJs
+id: fedora_resource.islandora_image
+targetEntityType: fedora_resource
+bundle: islandora_image
+types:
+  - 'pcdm:Object'
+  - 'schema:ImageObject'
+fieldMappings:
+  field_description:
+    properties:
+      - 'dc:description'
+  field_memberof:
+    properties:
+      - 'pcdm:memberOf'
+  field_obj:
+    properties:
+      - 'islandora:hasPreservationMaster'
+  name:
+    properties:
+      - 'dc:title'
+  created:
+    properties:
+      - 'schema:dateCreated'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  rdf_type:
+    properties:
+      - 'rdf:type'
+  uid:
+    properties:
+      - 'schema:author'
+    mapping_type: rel

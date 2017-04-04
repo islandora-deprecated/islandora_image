@@ -1,0 +1,31 @@
+uuid: 889a49c3-1c27-4862-8592-13adb73b53be
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_image
+  config:
+    - field.storage.fedora_resource.field_obj
+    - islandora.fedora_resource_type.islandora_image
+    - media_entity.bundle.image_obj
+id: fedora_resource.islandora_image.field_obj
+field_name: field_obj
+entity_type: fedora_resource
+bundle: islandora_image
+label: OBJ
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image_obj: image_obj
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

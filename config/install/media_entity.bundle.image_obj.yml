@@ -1,0 +1,19 @@
+uuid: 7561855e-0035-47c7-b93f-d66375452947
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_image
+  module:
+    - media_entity_image
+id: image_obj
+label: 'Image OBJ'
+description: 'Preservation master file for an Islandora Image'
+type: image
+queue_thumbnail_downloads: false
+new_revision: false
+type_configuration:
+  source_field: field_image
+  gather_exif: false
+field_map: {  }

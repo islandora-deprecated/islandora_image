@@ -1,0 +1,30 @@
+uuid: b8c325f3-0e52-49d3-ad1c-e7235cbdf67e
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_image
+  config:
+    - core.entity_form_mode.media.inline
+    - field.field.media.image_obj.field_image
+    - image.style.thumbnail
+    - media_entity.bundle.image_obj
+  module:
+    - image
+id: media.image_obj.inline
+targetEntityType: media
+bundle: image_obj
+mode: inline
+content:
+  field_image:
+    weight: 0
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+hidden:
+  created: true
+  name: true
+  uid: true

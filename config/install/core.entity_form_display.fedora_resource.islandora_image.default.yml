@@ -1,0 +1,86 @@
+uuid: e5045eac-dedc-4760-b88c-f1685c7bd2f1
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_image
+  config:
+    - core.entity_form_mode.media.inline
+    - field.field.fedora_resource.islandora_image.field_obj
+    - islandora.fedora_resource_type.islandora_image
+  module:
+    - inline_entity_form
+id: fedora_resource.islandora_image.default
+targetEntityType: fedora_resource
+bundle: islandora_image
+mode: default
+content:
+  fedora_has_parent:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_description:
+    weight: 27
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+  field_memberof:
+    weight: 28
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+  field_obj:
+    weight: 26
+    settings:
+      form_mode: inline
+      label_singular: ''
+      label_plural: ''
+      allow_new: true
+      match_operator: CONTAINS
+      override_labels: false
+      allow_existing: false
+    third_party_settings: {  }
+    type: inline_entity_form_complex
+  langcode:
+    type: language_select
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -4
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 15
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 16
+    third_party_settings: {  }
+  user_id:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

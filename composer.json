@@ -13,5 +13,6 @@
   },
   "require": {
     "islandora/islandora": "dev-8.x-1.x"
+    "islandora/islandora_collection": "dev-8.x-1.x"
   }
 }

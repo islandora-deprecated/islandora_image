@@ -26,7 +26,7 @@ fieldMappings:
       - 'pcdm:memberOf'
   field_obj:
     properties:
-      - 'islandora:hasPreservationMaster'
+      - 'pcdm:hasFile'
   name:
     properties:
       - 'dc:title'

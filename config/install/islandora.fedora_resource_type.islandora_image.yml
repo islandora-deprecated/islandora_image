@@ -1,0 +1,9 @@
+uuid: 0f860500-12e8-4c56-b3b8-4a5cb80ecada
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_image
+id: islandora_image
+label: 'Islandora Image'

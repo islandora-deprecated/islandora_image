@@ -1,0 +1,45 @@
+uuid: 88a88ca8-5e3c-46f9-a1f1-86f3ce096814
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_image
+  config:
+    - core.entity_view_mode.fedora_resource.teaser
+    - field.field.fedora_resource.islandora_image.field_obj
+    - image.style.thumbnail
+    - islandora.fedora_resource_type.islandora_image
+  module:
+    - media_entity
+    - user
+id: fedora_resource.islandora_image.teaser
+targetEntityType: fedora_resource
+bundle: islandora_image
+mode: teaser
+content:
+  field_description:
+    type: basic_string
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+  field_obj:
+    weight: 1
+    label: above
+    settings:
+      image_style: thumbnail
+      image_link: content
+    third_party_settings: {  }
+    type: media_thumbnail
+  name:
+    label: above
+    type: string
+    weight: 0
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  fedora_has_parent: true
+  field_memberof: true
+  user_id: true

@@ -1,28 +1,28 @@
-uuid: e56e75d9-4f9c-444e-b4b5-5ffdba4be656
+uuid: 82a25ab6-1f99-465d-a72d-1a54b88144fd
 langcode: en
 status: true
 dependencies:
+  config:
+    - field.storage.media.field_image
+    - media_entity.bundle.medium_size
   enforced:
     module:
       - islandora_image
-  config:
-    - field.storage.media.field_image
-    - media_entity.bundle.image_obj
   module:
     - image
-id: media.image_obj.field_image
+id: media.medium_size.field_image
 field_name: field_image
 entity_type: media
-bundle: image_obj
+bundle: medium_size
 label: Image
-description: ''
+description: 'Image content for MEDIUM_SIZE'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
   file_directory: '[date:custom:Y]-[date:custom:m]'
-  file_extensions: 'png gif jpg jpeg'
+  file_extensions: 'jpg jpeg'
   max_filesize: ''
   max_resolution: ''
   min_resolution: ''

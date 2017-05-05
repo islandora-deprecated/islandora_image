@@ -2,15 +2,22 @@ uuid: 6389bc54-8ca2-4b14-9e6a-3b3bc96eed66
 langcode: en
 status: true
 dependencies:
+  config:
+    - field.field.fedora_resource.islandora_image.field_description
+    - field.field.fedora_resource.islandora_image.field_jp2
+    - field.field.fedora_resource.islandora_image.field_medium_size
+    - field.field.fedora_resource.islandora_image.field_memberof
+    - field.field.fedora_resource.islandora_image.field_obj
+    - field.field.fedora_resource.islandora_image.field_tn
+    - islandora.fedora_resource_type.islandora_image
   enforced:
     module:
       - islandora_image
-  config:
-    - field.field.fedora_resource.islandora_image.field_obj
-    - islandora.fedora_resource_type.islandora_image
   module:
     - media_entity
     - user
+_core:
+  default_config_hash: ZMAM2f372osgUh351KVV04_g858WUSzehCzcU4yu8TI
 id: fedora_resource.islandora_image.default
 targetEntityType: fedora_resource
 bundle: islandora_image
@@ -19,42 +26,63 @@ content:
   fedora_has_parent:
     label: hidden
     type: entity_reference_label
-    weight: 0
+    weight: 4
     settings:
       link: true
     third_party_settings: {  }
   field_description:
-    weight: 2
+    weight: 3
     label: above
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+  field_jp2:
+    weight: 6
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+  field_medium_size:
+    weight: 7
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
   field_memberof:
-    weight: 3
+    weight: 2
     label: above
     settings:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
   field_obj:
-    weight: 1
+    weight: 5
     label: above
     settings:
       image_style: ''
       image_link: ''
     third_party_settings: {  }
     type: media_thumbnail
+  field_tn:
+    weight: 8
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
   name:
     label: above
     type: string
-    weight: -4
+    weight: 0
     settings:
       link_to_entity: false
     third_party_settings: {  }
   user_id:
     label: hidden
     type: author
-    weight: 0
+    weight: 1
     settings: {  }
     third_party_settings: {  }
 hidden: {  }

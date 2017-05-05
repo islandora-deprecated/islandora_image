@@ -1,31 +1,29 @@
-uuid: 1baa30f3-b313-46a4-898b-0bdb2c21880e
+uuid: 197d05ad-ee41-468e-9a70-7257c3b11ff0
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.fedora_resource.field_memberof
-    - islandora.fedora_resource_type.collection
+    - field.storage.fedora_resource.field_jp2
     - islandora.fedora_resource_type.islandora_image
+    - media_entity.bundle.jp2
   enforced:
     module:
       - islandora_image
-_core:
-  default_config_hash: YMfCzFw2R6r517jBTZuDFFTzvgwDOaqgzFaOJIi0DTY
-id: fedora_resource.islandora_image.field_memberof
-field_name: field_memberof
+id: fedora_resource.islandora_image.field_jp2
+field_name: field_jp2
 entity_type: fedora_resource
 bundle: islandora_image
-label: memberOf
-description: ''
+label: JP2
+description: 'JPEG2000 copy of an image'
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:fedora_resource'
+  handler: 'default:media'
   handler_settings:
     target_bundles:
-      collection: collection
+      jp2: jp2
     sort:
       field: _none
     auto_create: false

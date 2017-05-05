@@ -1,31 +1,29 @@
-uuid: 1baa30f3-b313-46a4-898b-0bdb2c21880e
+uuid: 96f365e5-47e2-4738-97e0-e8279e2f977e
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.fedora_resource.field_memberof
-    - islandora.fedora_resource_type.collection
+    - field.storage.fedora_resource.field_tn
     - islandora.fedora_resource_type.islandora_image
+    - media_entity.bundle.tn
   enforced:
     module:
       - islandora_image
-_core:
-  default_config_hash: YMfCzFw2R6r517jBTZuDFFTzvgwDOaqgzFaOJIi0DTY
-id: fedora_resource.islandora_image.field_memberof
-field_name: field_memberof
+id: fedora_resource.islandora_image.field_tn
+field_name: field_tn
 entity_type: fedora_resource
 bundle: islandora_image
-label: memberOf
-description: ''
+label: TN
+description: 'Image thumbnail file'
 required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:fedora_resource'
+  handler: 'default:media'
   handler_settings:
     target_bundles:
-      collection: collection
+      tn: tn
     sort:
       field: _none
     auto_create: false

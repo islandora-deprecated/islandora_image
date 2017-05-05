@@ -1,0 +1,76 @@
+uuid: 0c4d4090-e0b2-4ac7-9f40-e73ed278d042
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.medium_size.field_height
+    - field.field.media.medium_size.field_image
+    - field.field.media.medium_size.field_mimetype
+    - field.field.media.medium_size.field_width
+    - media_entity.bundle.medium_size
+  enforced:
+    module:
+      - islandora_image
+  module:
+    - image
+    - user
+id: media.medium_size.default
+targetEntityType: media
+bundle: medium_size
+mode: default
+content:
+  created:
+    type: timestamp
+    weight: 3
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+  field_height:
+    type: number_integer
+    weight: 6
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+  field_image:
+    weight: 1
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+  field_mimetype:
+    type: string
+    weight: 4
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  field_width:
+    type: number_integer
+    weight: 5
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+  name:
+    type: string
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  uid:
+    type: author
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  thumbnail: true

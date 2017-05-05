@@ -1,0 +1,15 @@
+uuid: 77185449-66f6-408d-86aa-3f1a99cf5fc8
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_image
+id: jp2
+label: JP2
+description: 'JPEG2000 service file'
+type: generic
+queue_thumbnail_downloads: false
+new_revision: false
+type_configuration: {  }
+field_map: {  }

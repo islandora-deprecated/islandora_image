@@ -1,29 +1,27 @@
-uuid: b8c325f3-0e52-49d3-ad1c-e7235cbdf67e
+uuid: d2f8ede2-ae7f-4ae6-8629-28ecdd33f029
 langcode: en
 status: true
 dependencies:
   config:
     - core.entity_form_mode.media.inline
-    - field.field.media.image_obj.field_file
-    - media_entity.bundle.image_obj
+    - field.field.media.jp2.field_file
+    - media_entity.bundle.jp2
   enforced:
     module:
       - islandora_image
   module:
     - file
-_core:
-  default_config_hash: YIfUy1ZPXFFCEknjmEwVRSL19fEc9Bm8BdQv21CBi-M
-id: media.image_obj.inline
+id: media.jp2.inline
 targetEntityType: media
-bundle: image_obj
+bundle: jp2
 mode: inline
 content:
   field_file:
-    type: file_generic
     weight: 0
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
+    type: file_generic
 hidden:
   created: true
   name: true

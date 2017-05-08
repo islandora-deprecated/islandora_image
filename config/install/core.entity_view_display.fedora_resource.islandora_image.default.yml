@@ -16,7 +16,7 @@ dependencies:
   module:
     - user
 _core:
-  default_config_hash: qHqcBsi-q9VtTQYfxaiKv7XfywMCXnKYh6ekFubzUno
+  default_config_hash: pMXSDr8oHE2wAOqnB6daRyYOoHI_LKCodgBvn4G1CVE
 id: fedora_resource.islandora_image.default
 targetEntityType: fedora_resource
 bundle: islandora_image
@@ -41,9 +41,10 @@ content:
     weight: 7
     label: above
     settings:
-      link: true
+      view_mode: content
+      link: false
     third_party_settings: {  }
-    type: entity_reference_label
+    type: entity_reference_entity_view
     region: content
   field_memberof:
     weight: 2
@@ -65,9 +66,10 @@ content:
     weight: 8
     label: above
     settings:
-      link: true
+      view_mode: content
+      link: false
     third_party_settings: {  }
-    type: entity_reference_label
+    type: entity_reference_entity_view
     region: content
   name:
     label: above

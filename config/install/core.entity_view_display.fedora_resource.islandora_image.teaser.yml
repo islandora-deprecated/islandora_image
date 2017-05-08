@@ -15,7 +15,7 @@ dependencies:
     module:
       - islandora_image
 _core:
-  default_config_hash: uuQYIOODBpBb9AcMjcEda0_uOOu0ePPSIl08CHcPeVs
+  default_config_hash: LrC6Aq0ZzvQPtDrVtBjvaSuw21LYwMCCXeg3xnqklOM
 id: fedora_resource.islandora_image.teaser
 targetEntityType: fedora_resource
 bundle: islandora_image
@@ -23,19 +23,21 @@ mode: teaser
 content:
   field_tn:
     type: entity_reference_entity_view
-    weight: 1
+    weight: 0
     label: above
     settings:
       view_mode: content
       link: false
     third_party_settings: {  }
+    region: content
   name:
     label: above
     type: string
-    weight: 0
+    weight: 1
     settings:
-      link_to_entity: false
+      link_to_entity: true
     third_party_settings: {  }
+    region: content
 hidden:
   field_description: true
   field_jp2: true

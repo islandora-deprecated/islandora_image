@@ -6,3 +6,4 @@ package: islandora
 dependencies:
   - islandora_collection
   - media_entity_image
+  - responsive_image

@@ -37,7 +37,6 @@ content:
       link_to_entity: false
     third_party_settings: {  }
 hidden:
-  fedora_has_parent: true
   field_description: true
   field_jp2: true
   field_medium_size: true

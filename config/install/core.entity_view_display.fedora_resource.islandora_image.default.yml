@@ -14,28 +14,21 @@ dependencies:
     module:
       - islandora_image
   module:
-    - media_entity
     - user
 _core:
-  default_config_hash: ZMAM2f372osgUh351KVV04_g858WUSzehCzcU4yu8TI
+  default_config_hash: qHqcBsi-q9VtTQYfxaiKv7XfywMCXnKYh6ekFubzUno
 id: fedora_resource.islandora_image.default
 targetEntityType: fedora_resource
 bundle: islandora_image
 mode: default
 content:
-  fedora_has_parent:
-    label: hidden
-    type: entity_reference_label
-    weight: 4
-    settings:
-      link: true
-    third_party_settings: {  }
   field_description:
     weight: 3
     label: above
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
   field_jp2:
     weight: 6
     label: above
@@ -43,6 +36,7 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
   field_medium_size:
     weight: 7
     label: above
@@ -50,6 +44,7 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
   field_memberof:
     weight: 2
     label: above
@@ -57,14 +52,15 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
   field_obj:
     weight: 5
     label: above
     settings:
-      image_style: ''
-      image_link: ''
+      link: true
     third_party_settings: {  }
-    type: media_thumbnail
+    type: entity_reference_label
+    region: content
   field_tn:
     weight: 8
     label: above
@@ -72,6 +68,7 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
   name:
     label: above
     type: string
@@ -79,10 +76,12 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    region: content
   user_id:
     label: hidden
     type: author
     weight: 1
     settings: {  }
     third_party_settings: {  }
+    region: content
 hidden: {  }

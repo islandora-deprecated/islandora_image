@@ -1,35 +1,27 @@
-uuid: 179996d5-5197-4c8e-8b45-2b145e3534de
 langcode: en
 status: true
 dependencies:
+  config:
+    - media_entity.bundle.image_obj
   enforced:
     module:
       - islandora_image
-  config:
-    - islandora.fedora_resource_type.islandora_image
   module:
-    - islandora
-_core:
-  default_config_hash: qSjhMzfaZYZUfiOrXUFZuTRlAX1hwnVFzgRtkinoBJs
-id: fedora_resource.islandora_image
-targetEntityType: fedora_resource
-bundle: islandora_image
+    - media_entity
+id: media.image_obj
+targetEntityType: media
+bundle: image_obj
 types:
-  - 'pcdm:Object'
-  - 'schema:ImageObject'
+  - 'use:PreservationMasterFile'
 fieldMappings:
-  field_description:
-    properties:
-      - 'dc:description'
-  field_memberof:
-    properties:
-      - 'pcdm:memberOf'
-  field_obj:
-    properties:
-      - 'pcdm:hasFile'
   name:
     properties:
       - 'dc:title'
+      - 'rdf:label'
+  field_file:
+    properties:
+      - 'iana:describes'
+    mapping_type: rel
   created:
     properties:
       - 'schema:dateCreated'

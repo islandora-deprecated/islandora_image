@@ -1,20 +1,18 @@
-uuid: b8c6e214-3935-4726-b20a-1960ff6ce373
+uuid: 0834fbde-f4e5-4d96-96f7-9a36ac485006
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.media.image_obj.field_file
-    - media_entity.bundle.image_obj
+    - field.field.media.jp2.field_file
+    - media_entity.bundle.jp2
   enforced:
     module:
       - islandora_image
   module:
     - file
-_core:
-  default_config_hash: mcmTrxQdaQ2m-gLvoprxw9Ymf9Y5TxjlDOcoVL6umFE
-id: media.image_obj.default
+id: media.jp2.default
 targetEntityType: media
-bundle: image_obj
+bundle: jp2
 mode: default
 content:
   field_file:

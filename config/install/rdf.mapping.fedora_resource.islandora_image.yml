@@ -24,9 +24,23 @@ fieldMappings:
   field_memberof:
     properties:
       - 'pcdm:memberOf'
+    mapping_type: rel
   field_obj:
     properties:
       - 'pcdm:hasFile'
+    mapping_type: rel
+  field_jp2:
+    properties:
+      - 'pcdm:hasFile'
+    mapping_type: rel
+  field_medium_size:
+    properties:
+      - 'pcdm:hasFile'
+    mapping_type: rel
+  field_tn:
+    properties:
+      - 'pcdm:hasFile'
+    mapping_type: rel
   name:
     properties:
       - 'dc:title'
@@ -40,9 +54,6 @@ fieldMappings:
       - 'schema:dateModified'
     datatype_callback:
       callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
-  rdf_type:
-    properties:
-      - 'rdf:type'
   uid:
     properties:
       - 'schema:author'

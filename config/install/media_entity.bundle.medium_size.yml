@@ -1,0 +1,22 @@
+uuid: 33181c8a-69ae-4ae7-bedf-3213030a23b5
+langcode: en
+status: true
+dependencies:
+  module:
+    - media_entity_image
+  enforced:
+    module:
+      - islandora_image
+id: medium_size
+label: MEDIUM_SIZE
+description: 'Medium sized JPEG for web display'
+type: image
+queue_thumbnail_downloads: false
+new_revision: false
+type_configuration:
+  source_field: field_image
+  gather_exif: false
+field_map:
+  mime: field_mimetype
+  width: field_width
+  height: field_height

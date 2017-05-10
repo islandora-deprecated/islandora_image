@@ -1,0 +1,41 @@
+uuid: 753d3bf2-8ae8-4fa5-8154-24891540d7eb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.medium_size.field_height
+    - field.field.media.medium_size.field_image
+    - field.field.media.medium_size.field_mimetype
+    - field.field.media.medium_size.field_width
+    - image.style.thumbnail
+    - media_entity.bundle.medium_size
+  enforced:
+    module:
+      - islandora_image
+  module:
+    - image
+id: media.medium_size.default
+targetEntityType: media
+bundle: medium_size
+mode: default
+content:
+  field_image:
+    weight: 1
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+  name:
+    type: string_textfield
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_height: true
+  field_mimetype: true
+  field_width: true
+  uid: true

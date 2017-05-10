@@ -1,0 +1,38 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - media_entity.bundle.medium_size
+  enforced:
+    module:
+      - islandora_image
+  module:
+    - media_entity_image
+id: media.medium_size
+targetEntityType: media
+bundle: medium_size
+types:
+  - 'use:ServiceFile'
+fieldMappings:
+  name:
+    properties:
+      - 'dc:title'
+      - 'rdf:label'
+  field_image:
+    properties:
+      - 'iana:describes'
+    mapping_type: rel
+  created:
+    properties:
+      - 'schema:dateCreated'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  uid:
+    properties:
+      - 'schema:author'
+    mapping_type: rel

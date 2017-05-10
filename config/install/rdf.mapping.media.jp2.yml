@@ -1,0 +1,38 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - media_entity.bundle.jp2
+  enforced:
+    module:
+      - islandora_image
+  module:
+    - media_entity
+id: media.jp2
+targetEntityType: media
+bundle: jp2
+types:
+  - 'use:ServiceFile'
+fieldMappings:
+  name:
+    properties:
+      - 'dc:title'
+      - 'rdf:label'
+  field_file:
+    properties:
+      - 'iana:describes'
+    mapping_type: rel
+  created:
+    properties:
+      - 'schema:dateCreated'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  uid:
+    properties:
+      - 'schema:author'
+    mapping_type: rel

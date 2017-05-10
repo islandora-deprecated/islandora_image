@@ -1,0 +1,38 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - media_entity.bundle.image_obj
+  enforced:
+    module:
+      - islandora_image
+  module:
+    - media_entity
+id: media.image_obj
+targetEntityType: media
+bundle: image_obj
+types:
+  - 'use:PreservationMasterFile'
+fieldMappings:
+  name:
+    properties:
+      - 'dc:title'
+      - 'rdf:label'
+  field_file:
+    properties:
+      - 'iana:describes'
+    mapping_type: rel
+  created:
+    properties:
+      - 'schema:dateCreated'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  uid:
+    properties:
+      - 'schema:author'
+    mapping_type: rel

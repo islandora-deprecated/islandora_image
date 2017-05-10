@@ -1,0 +1,36 @@
+uuid: 1fd21e8f-b403-43ed-86bf-338888b5efc2
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.media.inline
+    - field.field.media.medium_size.field_height
+    - field.field.media.medium_size.field_image
+    - field.field.media.medium_size.field_mimetype
+    - field.field.media.medium_size.field_width
+    - image.style.thumbnail
+    - media_entity.bundle.medium_size
+  enforced:
+    module:
+      - islandora_image
+  module:
+    - image
+id: media.medium_size.inline
+targetEntityType: media
+bundle: medium_size
+mode: inline
+content:
+  field_image:
+    weight: 0
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+hidden:
+  created: true
+  field_height: true
+  field_mimetype: true
+  field_width: true
+  name: true
+  uid: true

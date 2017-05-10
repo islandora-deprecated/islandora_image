@@ -1,31 +1,29 @@
-uuid: 1baa30f3-b313-46a4-898b-0bdb2c21880e
+uuid: 59623faf-436d-45e0-b3ec-960e2681589d
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.fedora_resource.field_memberof
-    - islandora.fedora_resource_type.collection
+    - field.storage.fedora_resource.field_medium_size
     - islandora.fedora_resource_type.islandora_image
+    - media_entity.bundle.medium_size
   enforced:
     module:
       - islandora_image
-_core:
-  default_config_hash: YMfCzFw2R6r517jBTZuDFFTzvgwDOaqgzFaOJIi0DTY
-id: fedora_resource.islandora_image.field_memberof
-field_name: field_memberof
+id: fedora_resource.islandora_image.field_medium_size
+field_name: field_medium_size
 entity_type: fedora_resource
 bundle: islandora_image
-label: memberOf
-description: ''
+label: MEDIUM_SIZE
+description: 'Medium size web copy of an image'
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:fedora_resource'
+  handler: 'default:media'
   handler_settings:
     target_bundles:
-      collection: collection
+      medium_size: medium_size
     sort:
       field: _none
     auto_create: false

@@ -2,12 +2,14 @@ uuid: 4caeb3d5-397b-4d1f-aee5-15df6cc1c36c
 langcode: en
 status: true
 dependencies:
-  enforced:
-    module:
-      - islandora_image
   config:
     - field.storage.fedora_resource.field_description
     - islandora.fedora_resource_type.islandora_image
+  enforced:
+    module:
+      - islandora_image
+_core:
+  default_config_hash: Mh7F15jwxZFakSbkV8tfa3JHJ7I2vZeox_77D3vxZa4
 id: fedora_resource.islandora_image.field_description
 field_name: field_description
 entity_type: fedora_resource

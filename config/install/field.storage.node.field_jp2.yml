@@ -1,16 +1,16 @@
-uuid: b65a7f53-ab86-4f62-ac07-834d9f809428
+uuid: f1b8ee48-9a39-4805-af1a-fb5be7b1ae4c
 langcode: en
 status: true
 dependencies:
   module:
-    - islandora
     - media_entity
+    - node
   enforced:
     module:
       - islandora_image
-id: fedora_resource.field_medium_size
-field_name: field_medium_size
-entity_type: fedora_resource
+id: node.field_jp2
+field_name: field_jp2
+entity_type: node
 type: entity_reference
 settings:
   target_type: media

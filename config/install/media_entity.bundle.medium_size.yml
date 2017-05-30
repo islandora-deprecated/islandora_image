@@ -2,11 +2,13 @@ uuid: 33181c8a-69ae-4ae7-bedf-3213030a23b5
 langcode: en
 status: true
 dependencies:
-  module:
-    - media_entity_image
   enforced:
     module:
       - islandora_image
+  module:
+    - media_entity_image
+_core:
+  default_config_hash: q4LdttcDbI4bg5GX6Isqmf9ndMD00ko94AM5PA_7VhI
 id: medium_size
 label: MEDIUM_SIZE
 description: 'Medium sized JPEG for web display'

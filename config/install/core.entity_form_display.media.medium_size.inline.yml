@@ -1,4 +1,4 @@
-uuid: 1fd21e8f-b403-43ed-86bf-338888b5efc2
+uuid: cf702621-6f2a-4483-ae54-29139ad0df44
 langcode: en
 status: true
 dependencies:
@@ -7,7 +7,6 @@ dependencies:
     - field.field.media.medium_size.field_height
     - field.field.media.medium_size.field_image
     - field.field.media.medium_size.field_mimetype
-    - field.field.media.medium_size.field_width
     - image.style.thumbnail
     - media_entity.bundle.medium_size
   enforced:
@@ -15,6 +14,8 @@ dependencies:
       - islandora_image
   module:
     - image
+_core:
+  default_config_hash: ZXnucq5OfSp2B7Ae8WugvUQJCRuPpdDIGpO6iZV0vvA
 id: media.medium_size.inline
 targetEntityType: media
 bundle: medium_size
@@ -27,6 +28,7 @@ content:
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
+    region: content
 hidden:
   created: true
   field_height: true

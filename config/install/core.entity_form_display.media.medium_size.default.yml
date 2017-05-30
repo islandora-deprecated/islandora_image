@@ -6,7 +6,6 @@ dependencies:
     - field.field.media.medium_size.field_height
     - field.field.media.medium_size.field_image
     - field.field.media.medium_size.field_mimetype
-    - field.field.media.medium_size.field_width
     - image.style.thumbnail
     - media_entity.bundle.medium_size
   enforced:
@@ -14,6 +13,8 @@ dependencies:
       - islandora_image
   module:
     - image
+_core:
+  default_config_hash: BQYGAq_pqqoUpwvXC9X0VetW_I76vGEyJ5TRzJ7Jk60
 id: media.medium_size.default
 targetEntityType: media
 bundle: medium_size
@@ -26,6 +27,7 @@ content:
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -33,6 +35,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    region: content
 hidden:
   created: true
   field_height: true

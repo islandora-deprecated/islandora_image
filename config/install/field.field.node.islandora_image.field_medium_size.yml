@@ -1,20 +1,20 @@
-uuid: 59623faf-436d-45e0-b3ec-960e2681589d
+uuid: 91063e2a-1a2c-4ecb-9ab6-f6014be1c40f
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.fedora_resource.field_medium_size
-    - islandora.fedora_resource_type.islandora_image
+    - field.storage.node.field_medium_size
     - media_entity.bundle.medium_size
+    - node.type.islandora_image
   enforced:
     module:
       - islandora_image
-id: fedora_resource.islandora_image.field_medium_size
+id: node.islandora_image.field_medium_size
 field_name: field_medium_size
-entity_type: fedora_resource
+entity_type: node
 bundle: islandora_image
 label: MEDIUM_SIZE
-description: 'Medium size web copy of an image'
+description: 'Web copy of image for display'
 required: false
 translatable: false
 default_value: {  }

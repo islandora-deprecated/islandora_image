@@ -11,6 +11,8 @@ dependencies:
       - islandora_image
   module:
     - file
+_core:
+  default_config_hash: eYXZBQC7Ob8XIQKvEuSaA1_GDIrr6ayzXN6kgoh0mqU
 id: media.jp2.inline
 targetEntityType: media
 bundle: jp2
@@ -22,6 +24,7 @@ content:
       progress_indicator: throbber
     third_party_settings: {  }
     type: file_generic
+    region: content
 hidden:
   created: true
   name: true

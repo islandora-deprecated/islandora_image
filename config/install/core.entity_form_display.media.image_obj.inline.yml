@@ -12,7 +12,7 @@ dependencies:
   module:
     - file
 _core:
-  default_config_hash: YIfUy1ZPXFFCEknjmEwVRSL19fEc9Bm8BdQv21CBi-M
+  default_config_hash: EtJ7MHMvbJSDO7jhctuoC4eWbci8r3WFI3zFVB3kDh8
 id: media.image_obj.inline
 targetEntityType: media
 bundle: image_obj
@@ -24,6 +24,7 @@ content:
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
+    region: content
 hidden:
   created: true
   name: true

@@ -5,6 +5,8 @@ dependencies:
   enforced:
     module:
       - islandora_image
+_core:
+  default_config_hash: EGGUWkUHg58NLhG5q1lIo8TsZhrU4PMYW9KoGAqPAzY
 id: jp2
 label: JP2
 description: 'JPEG2000 service file'

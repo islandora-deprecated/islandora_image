@@ -1,0 +1,21 @@
+uuid: a1746dab-a9c1-4716-86b8-f7ee220a1c46
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+  enforced:
+    module:
+      - islandora_image
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'Islandora Image'
+type: islandora_image
+description: 'Models images in Islandora'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

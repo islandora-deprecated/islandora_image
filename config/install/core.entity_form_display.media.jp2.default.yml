@@ -10,6 +10,8 @@ dependencies:
       - islandora_image
   module:
     - file
+_core:
+  default_config_hash: 37bRQzX0wyEOyhghTzM989KL6wz7GeXphRssYxDR3rk
 id: media.jp2.default
 targetEntityType: media
 bundle: jp2
@@ -21,6 +23,7 @@ content:
       progress_indicator: throbber
     third_party_settings: {  }
     type: file_generic
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -28,6 +31,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    region: content
 hidden:
   created: true
   uid: true

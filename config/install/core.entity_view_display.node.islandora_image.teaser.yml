@@ -1,0 +1,49 @@
+uuid: 6281155d-18fe-4aa8-85ce-8c92207cef84
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.islandora_image.field_description
+    - field.field.node.islandora_image.field_jp2
+    - field.field.node.islandora_image.field_medium_size
+    - field.field.node.islandora_image.field_memberof
+    - field.field.node.islandora_image.field_obj
+    - field.field.node.islandora_image.field_tn
+    - node.type.islandora_image
+  module:
+    - user
+  enforced:
+    module:
+      - islandora_image
+id: node.islandora_image.teaser
+targetEntityType: node
+bundle: islandora_image
+mode: teaser
+content:
+  field_description:
+    type: basic_string
+    weight: 2
+    region: content
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+  field_tn:
+    type: entity_reference_entity_view
+    weight: 1
+    region: content
+    label: above
+    settings:
+      view_mode: content
+      link: false
+    third_party_settings: {  }
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_jp2: true
+  field_medium_size: true
+  field_memberof: true
+  field_obj: true

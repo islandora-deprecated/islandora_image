@@ -1,18 +1,18 @@
-uuid: 179996d5-5197-4c8e-8b45-2b145e3534de
+uuid: d00ea943-6d63-4d48-8cc3-1c10cc1147fb
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.islandora_image
   enforced:
     module:
       - islandora_image
-  config:
-    - islandora.fedora_resource_type.islandora_image
   module:
-    - islandora
+    - node
 _core:
-  default_config_hash: qSjhMzfaZYZUfiOrXUFZuTRlAX1hwnVFzgRtkinoBJs
-id: fedora_resource.islandora_image
-targetEntityType: fedora_resource
+  default_config_hash: 4HUKuDjfN-x_CjWTdaND6QqbOx_BASmoc9hsYkrTpzc
+id: node.islandora_image_
+targetEntityType: node
 bundle: islandora_image
 types:
   - 'pcdm:Object'
@@ -41,7 +41,7 @@ fieldMappings:
     properties:
       - 'pcdm:hasFile'
     mapping_type: rel
-  name:
+  title:
     properties:
       - 'dc:title'
   created:

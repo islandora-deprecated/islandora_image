@@ -1,20 +1,20 @@
-uuid: 197d05ad-ee41-468e-9a70-7257c3b11ff0
+uuid: ddf916e3-32fe-4326-881e-d5329b555ae1
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.fedora_resource.field_jp2
-    - islandora.fedora_resource_type.islandora_image
+    - field.storage.node.field_jp2
     - media_entity.bundle.jp2
+    - node.type.islandora_image
   enforced:
     module:
       - islandora_image
-id: fedora_resource.islandora_image.field_jp2
+id: node.islandora_image.field_jp2
 field_name: field_jp2
-entity_type: fedora_resource
+entity_type: node
 bundle: islandora_image
 label: JP2
-description: 'JPEG2000 copy of an image'
+description: 'JPEG2000 representation'
 required: false
 translatable: false
 default_value: {  }

@@ -1,20 +1,20 @@
-uuid: 96f365e5-47e2-4738-97e0-e8279e2f977e
+uuid: a85a6ab8-4da2-49b2-b0b1-4224fcd7963b
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.fedora_resource.field_tn
-    - islandora.fedora_resource_type.islandora_image
+    - field.storage.node.field_tn
     - media_entity.bundle.tn
+    - node.type.islandora_image
   enforced:
     module:
       - islandora_image
-id: fedora_resource.islandora_image.field_tn
+id: node.islandora_image.field_tn
 field_name: field_tn
-entity_type: fedora_resource
+entity_type: node
 bundle: islandora_image
 label: TN
-description: 'Image thumbnail file'
+description: 'Thumbnail image'
 required: false
 translatable: true
 default_value: {  }

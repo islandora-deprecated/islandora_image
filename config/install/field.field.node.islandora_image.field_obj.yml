@@ -1,24 +1,22 @@
-uuid: 889a49c3-1c27-4862-8592-13adb73b53be
+uuid: 2e2c1dcb-b141-4190-9b6a-7608de16ad0e
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.fedora_resource.field_obj
-    - islandora.fedora_resource_type.islandora_image
+    - field.storage.node.field_obj
     - media_entity.bundle.image_obj
+    - node.type.islandora_image
   enforced:
     module:
       - islandora_image
-_core:
-  default_config_hash: lAw8Y2FDcgH7UZoFEKayqOzL5e3aXNqTAVCH7t_zDoc
-id: fedora_resource.islandora_image.field_obj
+id: node.islandora_image.field_obj
 field_name: field_obj
-entity_type: fedora_resource
+entity_type: node
 bundle: islandora_image
 label: OBJ
-description: ''
+description: 'Preservation master'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

@@ -7,6 +7,8 @@ dependencies:
       - islandora_image
   module:
     - media_entity_image
+_core:
+  default_config_hash: fi5draAS7BCkytyHpaeYa-daLPsuKPstOA0qVohDVcI
 id: image_obj
 label: 'Image OBJ'
 description: 'Preservation master file for an Islandora Image'

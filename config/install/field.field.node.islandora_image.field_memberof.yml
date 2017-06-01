@@ -1,0 +1,31 @@
+uuid: accda71c-f6b5-4f6a-896c-1a826b1f510d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_memberof
+    - node.type.islandora_collection
+    - node.type.islandora_image
+  enforced:
+    module:
+      - islandora_image
+id: node.islandora_image.field_memberof
+field_name: field_memberof
+entity_type: node
+bundle: islandora_image
+label: 'Member Of'
+description: 'Parent collection'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      islandora_collection: islandora_collection
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

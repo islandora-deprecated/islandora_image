@@ -1,0 +1,24 @@
+uuid: 1f57ede0-8919-4d9e-b689-e0a0d9748e85
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_image
+  config:
+    - field.storage.media.field_mimetype
+    - media_entity.bundle.jp2
+id: media.jp2.field_mimetype
+field_name: field_mimetype
+entity_type: media
+bundle: jp2
+label: Mimetype
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: image/jp2
+default_value_callback: ''
+settings: {  }
+field_type: string

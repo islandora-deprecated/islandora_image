@@ -27,5 +27,6 @@ content:
     region: content
 hidden:
   created: true
+  field_mimetype: true
   name: true
   uid: true

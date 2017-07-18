@@ -34,6 +34,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: file_default
+  field_mimetype:
+    type: string
+    weight: 4
+    region: content
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
   name:
     label: hidden
     type: string

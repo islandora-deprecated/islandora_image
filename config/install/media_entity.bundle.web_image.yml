@@ -10,7 +10,7 @@ dependencies:
 _core:
   default_config_hash: q4LdttcDbI4bg5GX6Isqmf9ndMD00ko94AM5PA_7VhI
 id: web_image
-label: WEB_IMAGE
+label: Web Image
 description: 'Medium sized JPEG for web display'
 type: image
 queue_thumbnail_downloads: false

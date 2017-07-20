@@ -13,7 +13,7 @@ id: node.islandora_image.field_web_image
 field_name: field_web_image
 entity_type: node
 bundle: islandora_image
-label: WEB_IMAGE
+label: Web Image
 description: 'Web copy of image for display'
 required: false
 translatable: false

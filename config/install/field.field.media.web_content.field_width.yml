@@ -1,22 +1,25 @@
-uuid: 421077ad-9173-4c9b-a984-1ffa23b0116e
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.media.field_mimetype
-    - media_entity.bundle.medium_size
+    - media_entity.bundle.web_content
   enforced:
     module:
       - islandora_image
-id: media.medium_size.field_mimetype
-field_name: field_mimetype
+id: media.web_content.field_mimetype
+field_name: field_width
 entity_type: media
-bundle: medium_size
-label: Mimetype
-description: ''
+bundle: web_content
+label: Width
+description: 'Image Width'
 required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
-settings: {  }
-field_type: string
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

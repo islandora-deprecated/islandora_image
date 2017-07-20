@@ -3,17 +3,17 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_medium_size
-    - media_entity.bundle.medium_size
+    - field.storage.node.field_web_content
+    - media_entity.bundle.web_content
     - node.type.islandora_image
   enforced:
     module:
       - islandora_image
-id: node.islandora_image.field_medium_size
-field_name: field_medium_size
+id: node.islandora_image.field_web_content
+field_name: field_web_content
 entity_type: node
 bundle: islandora_image
-label: MEDIUM_SIZE
+label: Web Content
 description: 'Web copy of image for display'
 required: false
 translatable: false
@@ -23,7 +23,7 @@ settings:
   handler: 'default:media'
   handler_settings:
     target_bundles:
-      medium_size: medium_size
+      web_content: web_content
     sort:
       field: _none
     auto_create: false

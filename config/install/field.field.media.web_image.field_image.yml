@@ -4,25 +4,25 @@ status: true
 dependencies:
   config:
     - field.storage.media.field_image
-    - media_entity.bundle.medium_size
+    - media_entity.bundle.web_image
   enforced:
     module:
       - islandora_image
   module:
     - image
-id: media.medium_size.field_image
+id: media.web_image.field_image
 field_name: field_image
 entity_type: media
-bundle: medium_size
+bundle: web_image
 label: Image
-description: 'Image content for MEDIUM_SIZE'
+description: 'Image content for web_image'
 required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
   file_directory: '[date:custom:Y]-[date:custom:m]'
-  file_extensions: 'jpg jpeg'
+  file_extensions: 'png gif jpg jpeg'
   max_filesize: ''
   max_resolution: ''
   min_resolution: ''

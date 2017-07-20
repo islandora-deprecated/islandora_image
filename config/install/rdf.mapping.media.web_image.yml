@@ -2,15 +2,15 @@ langcode: en
 status: true
 dependencies:
   config:
-    - media_entity.bundle.medium_size
+    - media_entity.bundle.web_image
   enforced:
     module:
       - islandora_image
   module:
     - media_entity_image
-id: media.medium_size
+id: media.web_image
 targetEntityType: media
-bundle: medium_size
+bundle: web_image
 types:
   - 'use:ServiceFile'
 fieldMappings:

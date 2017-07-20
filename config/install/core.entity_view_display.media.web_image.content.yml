@@ -4,19 +4,19 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.media.content
-    - field.field.media.medium_size.field_height
-    - field.field.media.medium_size.field_image
-    - field.field.media.medium_size.field_mimetype
-    - field.field.media.medium_size.field_width
-    - media_entity.bundle.medium_size
+    - field.field.media.web_image.field_height
+    - field.field.media.web_image.field_image
+    - field.field.media.web_image.field_mimetype
+    - field.field.media.web_image.field_width
+    - media_entity.bundle.web_image
   enforced:
     module:
       - islandora_image
   module:
     - responsive_image
-id: media.medium_size.content
+id: media.web_image.content
 targetEntityType: media
-bundle: medium_size
+bundle: web_image
 mode: content
 content:
   field_image:

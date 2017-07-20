@@ -9,8 +9,8 @@ dependencies:
     - media_entity_image
 _core:
   default_config_hash: q4LdttcDbI4bg5GX6Isqmf9ndMD00ko94AM5PA_7VhI
-id: medium_size
-label: MEDIUM_SIZE
+id: web_image
+label: Web Image
 description: 'Medium sized JPEG for web display'
 type: image
 queue_thumbnail_downloads: false

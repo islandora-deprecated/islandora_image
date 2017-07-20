@@ -33,7 +33,7 @@ fieldMappings:
     properties:
       - 'pcdm:hasFile'
     mapping_type: rel
-  field_medium_size:
+  field_web_image:
     properties:
       - 'pcdm:hasFile'
     mapping_type: rel

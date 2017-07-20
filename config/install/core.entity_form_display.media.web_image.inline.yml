@@ -4,11 +4,11 @@ status: true
 dependencies:
   config:
     - core.entity_form_mode.media.inline
-    - field.field.media.medium_size.field_height
-    - field.field.media.medium_size.field_image
-    - field.field.media.medium_size.field_mimetype
+    - field.field.media.web_image.field_height
+    - field.field.media.web_image.field_image
+    - field.field.media.web_image.field_mimetype
     - image.style.thumbnail
-    - media_entity.bundle.medium_size
+    - media_entity.bundle.web_image
   enforced:
     module:
       - islandora_image
@@ -16,9 +16,9 @@ dependencies:
     - image
 _core:
   default_config_hash: ZXnucq5OfSp2B7Ae8WugvUQJCRuPpdDIGpO6iZV0vvA
-id: media.medium_size.inline
+id: media.web_image.inline
 targetEntityType: media
-bundle: medium_size
+bundle: web_image
 mode: inline
 content:
   field_image:

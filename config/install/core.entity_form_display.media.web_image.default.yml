@@ -3,11 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.media.medium_size.field_height
-    - field.field.media.medium_size.field_image
-    - field.field.media.medium_size.field_mimetype
+    - field.field.media.web_image.field_height
+    - field.field.media.web_image.field_image
+    - field.field.media.web_image.field_mimetype
     - image.style.thumbnail
-    - media_entity.bundle.medium_size
+    - media_entity.bundle.web_image
   enforced:
     module:
       - islandora_image
@@ -15,9 +15,9 @@ dependencies:
     - image
 _core:
   default_config_hash: BQYGAq_pqqoUpwvXC9X0VetW_I76vGEyJ5TRzJ7Jk60
-id: media.medium_size.default
+id: media.web_image.default
 targetEntityType: media
-bundle: medium_size
+bundle: web_image
 mode: default
 content:
   field_image:

@@ -8,8 +8,8 @@ dependencies:
   enforced:
     module:
       - islandora_image
-id: node.field_medium_size
-field_name: field_medium_size
+id: node.field_web_image
+field_name: field_web_image
 entity_type: node
 type: entity_reference
 settings:

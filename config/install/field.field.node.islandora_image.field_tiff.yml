@@ -3,17 +3,17 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_obj
-    - media_entity.bundle.image_obj
+    - field.storage.node.field_tiff
+    - media_entity.bundle.image_tiff
     - node.type.islandora_image
   enforced:
     module:
       - islandora_image
-id: node.islandora_image.field_obj
-field_name: field_obj
+id: node.islandora_image.field_tiff
+field_name: field_tiff
 entity_type: node
 bundle: islandora_image
-label: OBJ
+label: 'Tiff image'
 description: 'Preservation master'
 required: false
 translatable: true
@@ -23,7 +23,7 @@ settings:
   handler: 'default:media'
   handler_settings:
     target_bundles:
-      image_obj: image_obj
+      image_tiff: image_tiff
     sort:
       field: _none
     auto_create: false

@@ -4,16 +4,16 @@ status: true
 dependencies:
   config:
     - field.storage.media.field_file
-    - media_entity.bundle.image_obj
+    - media_entity.bundle.image_tiff
   enforced:
     module:
       - islandora_image
   module:
     - file
-id: media.image_obj.field_file
+id: media.image_tiff.field_file
 field_name: field_file
 entity_type: media
-bundle: image_obj
+bundle: image_tiff
 label: File
 description: 'Preservation master contents for an Islandora Image object.'
 required: false

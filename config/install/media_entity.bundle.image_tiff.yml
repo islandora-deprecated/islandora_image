@@ -9,8 +9,8 @@ dependencies:
     - media_entity_image
 _core:
   default_config_hash: fi5draAS7BCkytyHpaeYa-daLPsuKPstOA0qVohDVcI
-id: image_obj
-label: 'Image OBJ'
+id: image_tiff
+label: 'Tiff image'
 description: 'Preservation master file for an Islandora Image'
 type: image
 queue_thumbnail_downloads: false

@@ -4,8 +4,8 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.media.content
-    - field.field.media.image_obj.field_file
-    - media_entity.bundle.image_obj
+    - field.field.media.image_tiff.field_file
+    - media_entity.bundle.image_tiff
   enforced:
     module:
       - islandora_image
@@ -14,9 +14,9 @@ dependencies:
     - user
 _core:
   default_config_hash: JvmSSfp_f0OmijViB2YSP7gOAQGkcOmESPNxRPcCl7s
-id: media.image_obj.content
+id: media.image_tiff.content
 targetEntityType: media
-bundle: image_obj
+bundle: image_tiff
 mode: content
 content:
   created:

@@ -3,8 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.media.image_obj.field_file
-    - media_entity.bundle.image_obj
+    - field.field.media.image_tiff.field_file
+    - media_entity.bundle.image_tiff
   enforced:
     module:
       - islandora_image
@@ -12,9 +12,9 @@ dependencies:
     - file
 _core:
   default_config_hash: NjNvUlZ7jFrfr5jP8goGnj5a5hYQZ-T-rKZUH4HMEBs
-id: media.image_obj.default
+id: media.image_tiff.default
 targetEntityType: media
-bundle: image_obj
+bundle: image_tiff
 mode: default
 content:
   field_file:

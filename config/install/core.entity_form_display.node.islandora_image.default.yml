@@ -8,7 +8,7 @@ dependencies:
     - field.field.node.islandora_image.field_jp2
     - field.field.node.islandora_image.field_medium_size
     - field.field.node.islandora_image.field_memberof
-    - field.field.node.islandora_image.field_obj
+    - field.field.node.islandora_image.field_tiff
     - field.field.node.islandora_image.field_tn
     - node.type.islandora_image
   module:
@@ -71,7 +71,7 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
-  field_obj:
+  field_tiff:
     weight: 8
     settings:
       form_mode: inline

@@ -4,14 +4,14 @@ status: true
 dependencies:
   config:
     - field.storage.media.field_height
-    - media_entity.bundle.medium_size
+    - media_entity.bundle.web_content
   enforced:
     module:
       - islandora_image
-id: media.medium_size.field_height
+id: media.web_content.field_height
 field_name: field_height
 entity_type: media
-bundle: medium_size
+bundle: web_content
 label: Height
 description: 'Image Height'
 required: false

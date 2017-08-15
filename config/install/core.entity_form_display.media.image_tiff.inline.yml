@@ -4,8 +4,8 @@ status: true
 dependencies:
   config:
     - core.entity_form_mode.media.inline
-    - field.field.media.image_obj.field_file
-    - media_entity.bundle.image_obj
+    - field.field.media.image_tiff.field_file
+    - media_entity.bundle.image_tiff
   enforced:
     module:
       - islandora_image
@@ -13,9 +13,9 @@ dependencies:
     - file
 _core:
   default_config_hash: EtJ7MHMvbJSDO7jhctuoC4eWbci8r3WFI3zFVB3kDh8
-id: media.image_obj.inline
+id: media.image_tiff.inline
 targetEntityType: media
-bundle: image_obj
+bundle: image_tiff
 mode: inline
 content:
   field_file:

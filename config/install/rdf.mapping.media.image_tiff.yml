@@ -2,15 +2,15 @@ langcode: en
 status: true
 dependencies:
   config:
-    - media_entity.bundle.image_obj
+    - media_entity.bundle.image_tiff
   enforced:
     module:
       - islandora_image
   module:
     - media_entity
-id: media.image_obj
+id: media.image_tiff
 targetEntityType: media
-bundle: image_obj
+bundle: image_tiff
 types:
   - 'use:PreservationMasterFile'
 fieldMappings:

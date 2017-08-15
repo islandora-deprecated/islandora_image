@@ -25,7 +25,7 @@ fieldMappings:
     properties:
       - 'pcdm:memberOf'
     mapping_type: rel
-  field_obj:
+  field_tiff:
     properties:
       - 'pcdm:hasFile'
     mapping_type: rel
@@ -33,7 +33,7 @@ fieldMappings:
     properties:
       - 'pcdm:hasFile'
     mapping_type: rel
-  field_medium_size:
+  field_web_content:
     properties:
       - 'pcdm:hasFile'
     mapping_type: rel

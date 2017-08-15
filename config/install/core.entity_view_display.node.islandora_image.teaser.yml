@@ -6,9 +6,9 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.islandora_image.field_description
     - field.field.node.islandora_image.field_jp2
-    - field.field.node.islandora_image.field_medium_size
+    - field.field.node.islandora_image.field_web_content
     - field.field.node.islandora_image.field_memberof
-    - field.field.node.islandora_image.field_obj
+    - field.field.node.islandora_image.field_tiff
     - field.field.node.islandora_image.field_tn
     - node.type.islandora_image
   module:
@@ -44,6 +44,6 @@ content:
     third_party_settings: {  }
 hidden:
   field_jp2: true
-  field_medium_size: true
+  field_web_content: true
   field_memberof: true
-  field_obj: true
+  field_tiff: true

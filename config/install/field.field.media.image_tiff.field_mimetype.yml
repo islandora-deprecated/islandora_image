@@ -7,11 +7,11 @@ dependencies:
       - islandora_image
   config:
     - field.storage.media.field_mimetype
-    - media_entity.bundle.image_obj
-id: media.image_obj.field_mimetype
+    - media_entity.bundle.image_tiff
+id: media.image_tiff.field_mimetype
 field_name: field_mimetype
 entity_type: media
-bundle: image_obj
+bundle: image_tiff
 label: Mimetype
 description: ''
 required: false

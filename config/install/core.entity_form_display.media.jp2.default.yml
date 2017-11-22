@@ -34,4 +34,5 @@ content:
     region: content
 hidden:
   created: true
+  field_mimetype: true
   uid: true

@@ -28,3 +28,4 @@ hidden:
   name: true
   thumbnail: true
   uid: true
+  field_mimetype: true

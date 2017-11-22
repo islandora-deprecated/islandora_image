@@ -44,5 +44,13 @@ content:
     weight: 1
     settings: {  }
     third_party_settings: {  }
+  field_mimetype:
+    type: string
+    weight: 4
+    region: content
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
 hidden:
   thumbnail: true

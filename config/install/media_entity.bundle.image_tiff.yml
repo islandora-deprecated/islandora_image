@@ -8,7 +8,7 @@ dependencies:
   module:
     - media_entity_image
 _core:
-  default_config_hash: fi5draAS7BCkytyHpaeYa-daLPsuKPstOA0qVohDVcI
+  default_config_hash: xYLwsfDi0VZuixIK_k-w8y7hoRSS3S3gkZplXHHcWYY
 id: image_tiff
 label: 'Tiff image'
 description: 'Preservation master file for an Islandora Image'
@@ -16,6 +16,6 @@ type: image
 queue_thumbnail_downloads: false
 new_revision: false
 type_configuration:
-  source_field: field_image
+  source_field: field_file
   gather_exif: false
 field_map: {  }

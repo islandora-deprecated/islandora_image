@@ -5,13 +5,17 @@ dependencies:
   enforced:
     module:
       - islandora_image
+  module:
+    - media_entity_image
 _core:
-  default_config_hash: EGGUWkUHg58NLhG5q1lIo8TsZhrU4PMYW9KoGAqPAzY
+  default_config_hash: iypCon-6qIVQAQncmw_EpG9FpBUL5WJVuwrQ5Nq0z2U
 id: jp2
 label: JP2
 description: 'JPEG2000 service file'
-type: generic
+type: image
 queue_thumbnail_downloads: false
 new_revision: false
-type_configuration: {  }
+type_configuration:
+  source_field: field_file
+  gather_exif: false
 field_map: {  }

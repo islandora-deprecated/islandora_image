@@ -1,0 +1,30 @@
+uuid: 8172ac2f-9106-4f3a-a1ce-542c8a16fd4d
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora
+  enforced:
+    module:
+      - islandora_image
+name: tiff_image
+label: 'Tiff Image'
+group: Islandora
+description: 'Reactions for Tiff Images'
+requireAllConditions: false
+disabled: false
+conditions:
+  is_referenced_media:
+    id: is_referenced_media
+    field: islandora_image|field_tiff
+    negate: 0
+    uuid: f1eafb7d-4f08-4908-99c6-d0bf9499bd25
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+reactions:
+  derivative:
+    id: derivative
+    actions:
+      generate_a_web_image_from_a_tiff: generate_a_web_image_from_a_tiff
+    saved: false
+weight: 0

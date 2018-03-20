@@ -1,0 +1,30 @@
+uuid: d7befc63-71cd-4974-a9a8-661c84a6b962
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora
+  enforced:
+    module:
+      - islandora_image
+name: web_image
+label: 'Web Image'
+group: Islandora
+description: 'Reactions for Web Images'
+requireAllConditions: false
+disabled: false
+conditions:
+  is_referenced_media:
+    id: is_referenced_media
+    field: islandora_image|field_web_content
+    negate: 0
+    uuid: 2efc9e63-1650-487d-af71-4bab234aa971
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+reactions:
+  derivative:
+    id: derivative
+    actions:
+      generate_a_thumbnail_from_a_web_image: generate_a_thumbnail_from_a_web_image
+    saved: false
+weight: 2

@@ -116,10 +116,10 @@ class GenerateImageDerivative extends EmitEvent {
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
-    $form['event']['#disabled'] = 'disabled'; 
+    $form['event']['#disabled'] = 'disabled';
 
     $media_reference_fields = $this->generateFieldOptions();
-    
+
     $form['source'] = [
       '#type' => 'select',
       '#title' => t('Source field'),
@@ -162,6 +162,12 @@ class GenerateImageDerivative extends EmitEvent {
     return $form;
   }
 
+  /**
+   * Generates a 2D array for field options.
+   *
+   * @return array
+   *   Array formatted for a 2d select form element.
+   */
   protected function generateFieldOptions() {
     $node_types = $this->entityTypeManager->getStorage('node_type')->loadMultiple();
     $node_types = array_map(
@@ -175,11 +181,11 @@ class GenerateImageDerivative extends EmitEvent {
       function (string $node_type_id) {
         return $this->utils->getMediaReferenceFields('node', $node_type_id);
       },
-      $node_types 
+      $node_types
     );
     $fields = array_filter(
       $fields,
-      function(array $fields) {
+      function (array $fields) {
         return !empty($fields);
       }
     );
@@ -194,6 +200,12 @@ class GenerateImageDerivative extends EmitEvent {
     return $fields;
   }
 
+  /**
+   * Generates an array for bundle options.
+   *
+   * @return array
+   *   Media bundle labels, keyed by bundle ids.
+   */
   protected function generateBundleOptions() {
     $bundles = $this->entityTypeManager->getStorage('media_bundle')->loadMultiple();
     return array_map(
@@ -215,4 +227,5 @@ class GenerateImageDerivative extends EmitEvent {
     $this->configuration['mimetype'] = $form_state->getValue('mimetype');
     $this->configuration['args'] = $form_state->getValue('args');
   }
+
 }

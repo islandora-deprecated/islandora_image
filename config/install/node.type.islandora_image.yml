@@ -7,11 +7,6 @@ dependencies:
   enforced:
     module:
       - islandora_image
-third_party_settings:
-  menu_ui:
-    available_menus:
-      - main
-    parent: 'main:'
 name: 'Islandora Image'
 type: islandora_image
 description: 'Models images in Islandora'

@@ -1,0 +1,25 @@
+action.configuration.generate_image_derivative:
+  type: mapping
+  label: 'Generate an image derivative...'
+  mapping:
+    queue:
+      type: text
+      label: 'Queue'
+    event:
+      type: text
+      label: 'Event Type'
+    source:
+      type: text
+      label: 'Source field'
+    destination:
+      type: text
+      label: 'Destination field'
+    bundle:
+      type: text
+      label: 'Media Bundle'
+    mimetype:
+      type: text
+      label: 'Image Mimetype'
+    args:
+      type: text
+      label: 'Convert Arguments'

@@ -5,12 +5,13 @@ namespace Drupal\islandora_image\Plugin\Action;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
 use Drupal\field\Entity\FieldConfig;
-use Drupal\islandora\DerivativeUtils;
+use Drupal\islandora\IslandoraUtils;
 use Drupal\islandora\EventGenerator\EmitEvent;
 use Drupal\islandora\EventGenerator\EventGeneratorInterface;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
-use Drupal\media_entity\Entity\MediaBundle;
+use Drupal\media\Entity\MediaType;
 use Drupal\node\Entity\NodeType;
 use Stomp\StatefulStomp;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -27,9 +28,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class GenerateImageDerivative extends EmitEvent {
 
   /**
-   * Derivative utilities.
+   * Islandora utility functions.
    *
-   * @var \Drupal\islandora\DerivativeUtils
+   * @var \Drupal\islandora\IslandoraUtils
    */
   protected $utils;
 
@@ -52,8 +53,8 @@ class GenerateImageDerivative extends EmitEvent {
    *   Stomp client.
    * @param \Drupal\jwt\Authentication\Provider\JwtAuth $auth
    *   JWT Auth client.
-   * @param \Drupal\islandora\DerivativeUtils $utils
-   *   Derivative utilities.
+   * @param \Drupal\islandora\IslandoraUtils $utils
+   *   Islandora utility functions.
    */
   public function __construct(
     array $configuration,
@@ -64,7 +65,7 @@ class GenerateImageDerivative extends EmitEvent {
     EventGeneratorInterface $event_generator,
     StatefulStomp $stomp,
     JwtAuth $auth,
-    DerivativeUtils $utils
+    IslandoraUtils $utils
   ) {
     parent::__construct(
       $configuration,
@@ -92,7 +93,7 @@ class GenerateImageDerivative extends EmitEvent {
       $container->get('islandora.eventgenerator'),
       $container->get('islandora.stomp'),
       $container->get('jwt.authentication.jwt'),
-      $container->get('islandora.derivative_utils')
+      $container->get('islandora.utils')
     );
   }
 
@@ -103,12 +104,28 @@ class GenerateImageDerivative extends EmitEvent {
     return [
       'queue' => 'islandora-connector-houdini',
       'event' => 'Generate Derivative',
-      'source' => '',
-      'destination' => '',
-      'bundle' => '',
+      'source_term_uri' => '',
+      'derivative_term_uri' => '',
       'mimetype' => 'image/jpeg',
       'args' => '',
     ];
+  }
+
+  protected function generateData($entity) {
+    $data = parent::generateData($entity);
+    
+    // Find media belonging to node that has the source term.
+    $source_term = $this->utils->getTermForUri($this->configuration['source_term_uri']);
+    $source_media = $this->utils->getMediaWithTerm($entity, $source_term);
+    $data['source_uri'] = $source_media->url('canonical', ['absolute' => TRUE]);
+
+    $derivative_term = $this->utils->getTermForUri($this->configuration['derivative_term_uri']);
+    $route_params = ['node' => $entity->id(), 'media_type' => 'image', 'taxonomy_term' => $derivative_term->id()];
+    $data['destination_uri'] = Url::fromRoute('islandora.media_source_put_to_node', $route_params)
+      ->setAbsolute()
+      ->toString();
+
+    return $data;
   }
 
   /**
@@ -118,31 +135,21 @@ class GenerateImageDerivative extends EmitEvent {
     $form = parent::buildConfigurationForm($form, $form_state);
     $form['event']['#disabled'] = 'disabled';
 
-    $media_reference_fields = $this->generateFieldOptions();
-
-    $form['source'] = [
-      '#type' => 'select',
-      '#title' => t('Source field'),
-      '#default_value' => $this->configuration['source'],
+    $form['source_term'] = [
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'taxonomy_term',
+      '#title' => t('Source term'),
+      '#default_value' => $this->utils->getTermForUri($this->configuration['source_term_uri']),
       '#required' => TRUE,
-      '#options' => $this->generateFieldOptions(),
-      '#description' => t('Field referencing the Media to use as the source of the derivative.'),
+      '#description' => t('Term indicating the source media'),
     ];
-    $form['destination'] = [
-      '#type' => 'select',
-      '#title' => t('Destination field'),
-      '#default_value' => $this->configuration['destination'],
+    $form['derivative_term'] = [
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'taxonomy_term',
+      '#title' => t('Derivative term'),
+      '#default_value' => $this->utils->getTermForUri($this->configuration['derivative_term_uri']),
       '#required' => TRUE,
-      '#options' => $this->generateFieldOptions(),
-      '#description' => t('Entity reference field for media where derivative will be ingested.'),
-    ];
-    $form['bundle'] = [
-      '#type' => 'select',
-      '#title' => t('Bundle'),
-      '#default_value' => $this->configuration['bundle'],
-      '#required' => TRUE,
-      '#options' => $this->generateBundleOptions(),
-      '#description' => t('Bundle to create for derivative media'),
+      '#description' => t('Term indicating the derivative media'),
     ];
     $form['mimetype'] = [
       '#type' => 'textfield',
@@ -163,67 +170,19 @@ class GenerateImageDerivative extends EmitEvent {
   }
 
   /**
-   * Generates a 2D array for field options.
-   *
-   * @return array
-   *   Array formatted for a 2d select form element.
-   */
-  protected function generateFieldOptions() {
-    $node_types = $this->entityTypeManager->getStorage('node_type')->loadMultiple();
-    $node_types = array_map(
-      function (NodeType $node_type) {
-        return $node_type->label();
-      },
-      $node_types
-    );
-    $node_types = array_flip($node_types);
-    $fields = array_map(
-      function (string $node_type_id) {
-        return $this->utils->getMediaReferenceFields('node', $node_type_id);
-      },
-      $node_types
-    );
-    $fields = array_filter(
-      $fields,
-      function (array $fields) {
-        return !empty($fields);
-      }
-    );
-    foreach (array_keys($fields) as $key) {
-      $fields[$key] = array_map(
-        function (FieldConfig $field) {
-          return $field->label();
-        },
-        $fields[$key]
-      );
-    }
-    return $fields;
-  }
-
-  /**
-   * Generates an array for bundle options.
-   *
-   * @return array
-   *   Media bundle labels, keyed by bundle ids.
-   */
-  protected function generateBundleOptions() {
-    $bundles = $this->entityTypeManager->getStorage('media_bundle')->loadMultiple();
-    return array_map(
-      function (MediaBundle $bundle) {
-        return $bundle->label();
-      },
-      $bundles
-    );
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
     parent::submitConfigurationForm($form, $form_state);
-    $this->configuration['source'] = $form_state->getValue('source');
-    $this->configuration['destination'] = $form_state->getValue('destination');
-    $this->configuration['bundle'] = $form_state->getValue('bundle');
+
+    $tid = $form_state->getValue('source_term');
+    $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($tid);
+    $this->configuration['source_term_uri'] = $this->utils->getUriForTerm($term);
+
+    $tid = $form_state->getValue('derivative_term');
+    $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($tid);
+    $this->configuration['derivative_term_uri'] = $this->utils->getUriForTerm($term);
+
     $this->configuration['mimetype'] = $form_state->getValue('mimetype');
     $this->configuration['args'] = $form_state->getValue('args');
   }

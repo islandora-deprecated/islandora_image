@@ -4,6 +4,4 @@ description: Islandora Image
 core: 8.x
 package: islandora
 dependencies:
-  - islandora_collection
-  - media_entity_image
-  - responsive_image
+  - islandora

@@ -8,15 +8,12 @@ action.configuration.generate_image_derivative:
     event:
       type: text
       label: 'Event Type'
-    source:
+    source_term_uri:
       type: text
-      label: 'Source field'
-    destination:
+      label: 'Source term uri'
+    derivative_term_uri:
       type: text
-      label: 'Destination field'
-    bundle:
-      type: text
-      label: 'Media Bundle'
+      label: 'Destination term uri'
     mimetype:
       type: text
       label: 'Image Mimetype'

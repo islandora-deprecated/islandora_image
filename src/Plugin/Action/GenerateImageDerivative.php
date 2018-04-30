@@ -10,6 +10,7 @@ use Drupal\field\Entity\FieldConfig;
 use Drupal\islandora\IslandoraUtils;
 use Drupal\islandora\EventGenerator\EmitEvent;
 use Drupal\islandora\EventGenerator\EventGeneratorInterface;
+use Drupal\islandora\MediaSource\MediaSourceService;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
 use Drupal\media\Entity\MediaType;
 use Drupal\node\Entity\NodeType;
@@ -33,6 +34,8 @@ class GenerateImageDerivative extends EmitEvent {
    * @var \Drupal\islandora\IslandoraUtils
    */
   protected $utils;
+
+  protected $mediaSource;
 
   /**
    * Constructs a EmitEvent action.
@@ -65,7 +68,8 @@ class GenerateImageDerivative extends EmitEvent {
     EventGeneratorInterface $event_generator,
     StatefulStomp $stomp,
     JwtAuth $auth,
-    IslandoraUtils $utils
+    IslandoraUtils $utils,
+    MediaSourceService $media_source
   ) {
     parent::__construct(
       $configuration,
@@ -78,6 +82,7 @@ class GenerateImageDerivative extends EmitEvent {
       $auth
     );
     $this->utils = $utils;
+    $this->mediaSource = $media_source;
   }
 
   /**
@@ -93,7 +98,8 @@ class GenerateImageDerivative extends EmitEvent {
       $container->get('islandora.eventgenerator'),
       $container->get('islandora.stomp'),
       $container->get('jwt.authentication.jwt'),
-      $container->get('islandora.utils')
+      $container->get('islandora.utils'),
+      $container->get('islandora.media_source_service')
     );
   }
 
@@ -114,10 +120,13 @@ class GenerateImageDerivative extends EmitEvent {
   protected function generateData($entity) {
     $data = parent::generateData($entity);
     
-    // Find media belonging to node that has the source term.
+    // Find media belonging to node that has the source term, and get its file url.
     $source_term = $this->utils->getTermForUri($this->configuration['source_term_uri']);
     $source_media = $this->utils->getMediaWithTerm($entity, $source_term);
-    $data['source_uri'] = $source_media->url('canonical', ['absolute' => TRUE]);
+    $source_field = $this->mediaSource->getSourceFieldName($source_media->bundle());
+    $files = $source_media->get($source_field)->referencedEntities();
+    $file = reset($files);
+    $data['source_uri'] = $file->url('canonical', ['absolute' => TRUE]);
 
     $derivative_term = $this->utils->getTermForUri($this->configuration['derivative_term_uri']);
     $route_params = ['node' => $entity->id(), 'media_type' => 'image', 'taxonomy_term' => $derivative_term->id()];
@@ -125,6 +134,25 @@ class GenerateImageDerivative extends EmitEvent {
       ->setAbsolute()
       ->toString();
 
+    $parts = explode('/', $data['mimetype']);
+    if (count($parts) > 1) {
+      $extension = $parts[1];
+    } elseif (!empty($data['mimetype'])) {
+      $extension = $data['mimetype'];
+    } else {
+      $extension = "jpeg";
+    }
+
+    $parts = explode('#', $this->configuration['derivative_term_uri']);
+    if (count($parts) > 1) {
+      $name = $entity->id() . ' - ' . $parts[1];
+    } else {
+      $name = $entity->id() . ' - Derivative';
+    }
+    $data['filename'] = "$name.$extension";
+
+    unset($data['source_term_uri']);
+    unset($data['derivative_term_uri']);
     return $data;
   }
 

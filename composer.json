@@ -12,7 +12,6 @@
     "irc": "irc://irc.freenode.net/islandora"
   },
   "require": {
-    "islandora/islandora_collection": "dev-8.x-1.x",
-    "drupal/media_entity_image": "^1.2"
+    "islandora/islandora": "dev-8.x-1.x"
   }
 }

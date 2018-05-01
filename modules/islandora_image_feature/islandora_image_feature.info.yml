@@ -1,0 +1,10 @@
+name: 'Islandora Image Feature'
+description: 'Islandora Image configuration'
+type: module
+core: 8.x
+dependencies:
+  - context
+  - islandora
+  - islandora_image
+  - system
+package: Islandora

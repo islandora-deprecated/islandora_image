@@ -13,10 +13,76 @@ class GenerateImageDerivativeTest extends IslandoraFunctionalTestBase {
 
   protected static $modules = ['context_ui', 'islandora_image'];
 
-  protected static $configSchemaCheckerExclusions = [
-    'context.context.tiff_image',
-    'context.context.web_image',
-  ];
+  /**
+   * Node to hold the media.
+   *
+   * @var \Drupal\node\NodeInterface
+   */
+  protected $node;
+
+  /**
+   * Term to belong to the node.
+   *
+   * @var \Drupal\taxonomy\TermInterface
+   */
+  protected $imageTerm;
+
+  /**
+   * Term to belong to the source media.
+   *
+   * @var \Drupal\taxonomy\TermInterface
+   */
+  protected $preservationMasterTerm;
+
+  /**
+   * Term to belong to the derivative media.
+   *
+   * @var \Drupal\taxonomy\TermInterface
+   */
+  protected $serviceFileTerm;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp();
+
+    // Create a test user.
+    $account = $this->drupalCreateUser();
+    $this->drupalLogin($account);
+
+    // 'Image' tag.
+    $this->imageTerm = $this->container->get('entity_type.manager')->getStorage('taxonomy_term')->create([
+      'name' => 'Image',
+      'vid' => $this->testVocabulary->id(),
+      'field_external_uri' => [['uri' => "http://purl.org/coar/resource_type/c_c513"]],
+    ]);
+    $this->imageTerm->save();
+
+    // 'Preservation Master' tag.
+    $this->preservationMasterTerm = $this->container->get('entity_type.manager')->getStorage('taxonomy_term')->create([
+      'name' => 'Preservation Master',
+      'vid' => $this->testVocabulary->id(),
+      'field_external_uri' => [['uri' => "http://pcdm.org/use#PreservationMasterFile"]],
+    ]);
+    $this->preservationMasterTerm->save();
+
+    // 'Preservation Master' tag.
+    $this->serviceFileTerm = $this->container->get('entity_type.manager')->getStorage('taxonomy_term')->create([
+      'name' => 'Service File',
+      'vid' => $this->testVocabulary->id(),
+      'field_external_uri' => [['uri' => "http://pcdm.org/use#ServiceFile"]],
+    ]);
+    $this->serviceFileTerm->save();
+
+    // Node to be referenced via media_of.
+    $this->node = $this->container->get('entity_type.manager')->getStorage('node')->create([
+      'type' => $this->testType->id(),
+      'title' => 'Test Node',
+      'field_tags' => [$this->imageTerm->id()],
+    ]);
+    $this->node->save();
+  }
 
   /**
    * @covers \Drupal\islandora_image\Plugin\Action\GenerateImageDerivative::defaultConfiguration
@@ -25,11 +91,6 @@ class GenerateImageDerivativeTest extends IslandoraFunctionalTestBase {
    * @covers \Drupal\islandora_image\Plugin\Action\GenerateImageDerivative::execute
    */
   public function testGenerateImageDerivativeFromScratch() {
-
-    // Delete the context entities provided by the module.
-    // We're building our own to test the form.
-    $this->container->get('entity_type.manager')->getStorage('context')->load('tiff_image')->delete();
-    $this->container->get('entity_type.manager')->getStorage('context')->load('web_image')->delete();
 
     // Create a test user.
     $account = $this->drupalCreateUser([
@@ -44,16 +105,15 @@ class GenerateImageDerivativeTest extends IslandoraFunctionalTestBase {
 
     // Create an action to generate a jpeg thumbnail.
     $this->drupalGet('admin/config/system/actions');
-    $this->getSession()->getPage()->findById("edit-action")->selectOption("Generate an image derivative...");
+    $this->getSession()->getPage()->findById("edit-action")->selectOption("Generate an image derivative");
     $this->getSession()->getPage()->pressButton(t('Create'));
     $this->assertSession()->statusCodeEquals(200);
 
     $this->getSession()->getPage()->fillField('edit-label', "Generate test derivative");
     $this->getSession()->getPage()->fillField('edit-id', "generate_test_derivative");
     $this->getSession()->getPage()->fillField('edit-queue', "generate-test-derivative");
-    $this->getSession()->getPage()->findById("edit-source")->selectOption('field_media');
-    $this->getSession()->getPage()->findById("edit-destination")->selectOption('field_media');
-    $this->getSession()->getPage()->findById("edit-bundle")->selectOption('tn');
+    $this->getSession()->getPage()->fillField("edit-source-term", $this->preservationMasterTerm->label());
+    $this->getSession()->getPage()->fillField("edit-derivative-term", $this->serviceFileTerm->label());
     $this->getSession()->getPage()->fillField('edit-mimetype', "image/jpeg");
     $this->getSession()->getPage()->fillField('edit-args', "-thumbnail 20x20");
     $this->getSession()->getPage()->pressButton(t('Save'));
@@ -61,61 +121,20 @@ class GenerateImageDerivativeTest extends IslandoraFunctionalTestBase {
 
     // Create a context and add the action as a derivative reaction.
     $this->createContext('Test', 'test');
-    $this->drupalGet("admin/structure/context/test/condition/add/is_referenced_media");
-    $this->getSession()->getPage()->findById("edit-conditions-is-referenced-media-field")->selectOption('test_type_with_reference|field_media');
-    $this->getSession()->getPage()->pressButton('Save and continue');
     $this->addPresetReaction('test', 'derivative', "generate_test_derivative");
     $this->assertSession()->statusCodeEquals(200);
 
-    // Create a new media.
-    $urls = $this->createThumbnailWithFile();
+    // Create a new preservation master belonging to the node.
+    $values = [
+      'name[0][value]' => 'Test Media',
+      'files[field_media_file_0]' => __DIR__ . '/../../fixtures/test_file.txt',
+      'field_media_of[0][target_id]' => 'Test Node',
+      'field_tags[0][target_id]' => 'Preservation Master',
+    ];
+    $this->drupalPostForm('media/add/' . $this->testMediaType->id(), $values, t('Save'));
 
-    // Media is not referenced, so derivatives should not fire.
-    $this->checkNoMessage();
-
-    // Create a new node without referencing a media and confirm derivatives
-    // do not fire.
-    $this->postNodeAddForm('test_type_with_reference', ['title[0][value]' => 'Test Node'], 'Save');
-    $this->checkNoMessage();
-
-    // Create a new node that does reference media and confirm derivatives
-    // do fire.
-    $this->postNodeAddForm(
-      'test_type_with_reference',
-      [
-        'title[0][value]' => 'Test Node 2',
-        'field_media[0][target_id]' => 'Test Media',
-      ],
-      'Save'
-    );
+    // Check the message gets published and is of the right shape.
     $this->checkMessage();
-
-    // Stash the node's url.
-    $url = $this->getUrl();
-
-    // Edit the node but not the media and confirm derivatives do not fire.
-    $this->postEntityEditForm($url, ['title[0][value]' => 'Test Node Changed'], 'Save');
-    $this->checkNoMessage();
-
-    // Edit the Media now that it's referenced.
-    $this->postEntityEditForm($urls['media'], ['field_image[0][alt]' => 'alt text changed'], 'Save');
-    $this->checkMessage();
-  }
-
-  /**
-   * Asserts that no message was delivered.
-   */
-  protected function checkNoMessage() {
-    // Verify no message is sent.
-    $stomp = $this->container->get('islandora.stomp');
-    try {
-      $stomp->subscribe('generate-test-derivative');
-      $this->assertTrue(!$stomp->read());
-      $stomp->unsubscribe();
-    }
-    catch (StompException $e) {
-      $this->assertTrue(FALSE, "There was an error connecting to the stomp broker");
-    }
   }
 
   /**
@@ -152,11 +171,23 @@ class GenerateImageDerivativeTest extends IslandoraFunctionalTestBase {
         $this->assertTrue($summary == 'Generate Derivative', "Expected 'Generate Derivative', received $summary");
 
         $content = $body['attachment']['content'];
-        $this->assertTrue($content['source'] == 'field_media', "Expected source 'field_media', received {$content['source']}");
-        $this->assertTrue($content['destination'] == 'field_media', "Expected destination 'field_media', received {$content['destination']}");
-        $this->assertTrue($content['bundle'] == 'tn', "Expected bundle 'tn', received {$content['bundle']}");
-        $this->assertTrue($content['mimetype'] == 'image/jpeg', "Expected bundle 'image/jpeg', received {$content['mimetype']}");
+        $this->assertTrue(
+          strpos($content['source_uri'], "test_file.txt") !== FALSE,
+          "Expected source uri should contain the file."
+        );
+        $this->assertTrue(
+          strpos($content['destination_uri'], "node/1/media/image/3") !== FALSE,
+          "Expected destination uri should reference both node and term"
+        );
+        $this->assertTrue(
+          strpos($content['filename'], "ServiceFile.jpeg") !== FALSE,
+          "Expected filename should contain the name of the derivative term and proper extension"
+        );
+
+        $this->assertTrue($content['mimetype'] == 'image/jpeg', "Expected mimetype 'image/jpeg', received {$content['mimetype']}");
+
         $this->assertTrue($content['args'] == '-thumbnail 20x20', "Expected bundle '-thumbnail 20x20', received {$content['args']}");
+
       }
       $stomp->unsubscribe();
     }

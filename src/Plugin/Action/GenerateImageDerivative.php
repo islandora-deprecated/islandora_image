@@ -35,6 +35,11 @@ class GenerateImageDerivative extends EmitEvent {
    */
   protected $utils;
 
+  /**
+   * Media source service.
+   *
+   * @var \Drupal\islandora\MediaSource\MediaSourceService
+   */
   protected $mediaSource;
 
   /**
@@ -58,6 +63,8 @@ class GenerateImageDerivative extends EmitEvent {
    *   JWT Auth client.
    * @param \Drupal\islandora\IslandoraUtils $utils
    *   Islandora utility functions.
+   * @param \Drupal\islandora\MediaSource\MediaSourceService $media_source
+   *   Media source service.
    */
   public function __construct(
     array $configuration,
@@ -117,10 +124,14 @@ class GenerateImageDerivative extends EmitEvent {
     ];
   }
 
+  /**
+   * Override this to return arbitrary data as an array to be json encoded.
+   */
   protected function generateData($entity) {
     $data = parent::generateData($entity);
     
-    // Find media belonging to node that has the source term, and get its file url.
+    // Find media belonging to node that has the source term, and set its file 
+    // url in the data array.
     $source_term = $this->utils->getTermForUri($this->configuration['source_term_uri']);
     $source_media = $this->utils->getMediaWithTerm($entity, $source_term);
     $source_field = $this->mediaSource->getSourceFieldName($source_media->bundle());
@@ -128,31 +139,31 @@ class GenerateImageDerivative extends EmitEvent {
     $file = reset($files);
     $data['source_uri'] = $file->url('canonical', ['absolute' => TRUE]);
 
+    // Find the term for the derivative and use it to set the destination url
+    // in the data array.
     $derivative_term = $this->utils->getTermForUri($this->configuration['derivative_term_uri']);
     $route_params = ['node' => $entity->id(), 'media_type' => 'image', 'taxonomy_term' => $derivative_term->id()];
     $data['destination_uri'] = Url::fromRoute('islandora.media_source_put_to_node', $route_params)
       ->setAbsolute()
       ->toString();
 
+    // Generate a filename for the derivative.
     $parts = explode('/', $data['mimetype']);
-    if (count($parts) > 1) {
-      $extension = $parts[1];
-    } elseif (!empty($data['mimetype'])) {
-      $extension = $data['mimetype'];
-    } else {
-      $extension = "jpeg";
-    }
+    $extension = $parts[1];
 
     $parts = explode('#', $this->configuration['derivative_term_uri']);
     if (count($parts) > 1) {
-      $name = $entity->id() . ' - ' . $parts[1];
+      $name = $entity->uuid() . ' - ' . $parts[1];
     } else {
-      $name = $entity->id() . ' - Derivative';
+      $name = $entity->uuid() . ' - Derivative';
     }
     $data['filename'] = "$name.$extension";
 
+    // Get rid of some config so we just pass along
+    // what islandora-connector-houdini needs.
     unset($data['source_term_uri']);
     unset($data['derivative_term_uri']);
+
     return $data;
   }
 
@@ -195,6 +206,36 @@ class GenerateImageDerivative extends EmitEvent {
       '#description' => t('Additional command line arguments for ImageMagick convert (e.g. -resize 50%'),
     ];
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
+    parent::validateConfigurationForm($form, $form_state);
+
+    $exploded_mime = explode('/', $form_state->getValue('mimetype'));
+
+    if (count($exploded_mime) != 2) {
+      $form_state->setErrorByName(
+        'mimetype',
+        t('Please enter an image mimetype (e.g. image/jpeg, image/png, etc...)')
+      );
+    }
+
+    if ($exploded_mime[0] != "image") {
+      $form_state->setErrorByName(
+        'mimetype',
+        t('Please enter an image mimetype (e.g. image/jpeg, image/png, etc...)')
+      );
+    }
+
+    if (empty($exploded_mime[1])) {
+      $form_state->setErrorByName(
+        'mimetype',
+        t('Please enter an image mimetype (e.g. image/jpeg, image/png, etc...)')
+      );
+    }
   }
 
   /**

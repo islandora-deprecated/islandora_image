@@ -6,14 +6,11 @@ use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
-use Drupal\field\Entity\FieldConfig;
 use Drupal\islandora\IslandoraUtils;
 use Drupal\islandora\EventGenerator\EmitEvent;
 use Drupal\islandora\EventGenerator\EventGeneratorInterface;
 use Drupal\islandora\MediaSource\MediaSourceService;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
-use Drupal\media\Entity\MediaType;
-use Drupal\node\Entity\NodeType;
 use Stomp\StatefulStomp;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -129,8 +126,8 @@ class GenerateImageDerivative extends EmitEvent {
    */
   protected function generateData($entity) {
     $data = parent::generateData($entity);
-    
-    // Find media belonging to node that has the source term, and set its file 
+
+    // Find media belonging to node that has the source term, and set its file
     // url in the data array.
     $source_term = $this->utils->getTermForUri($this->configuration['source_term_uri']);
     $source_media = $this->utils->getMediaWithTerm($entity, $source_term);
@@ -142,7 +139,11 @@ class GenerateImageDerivative extends EmitEvent {
     // Find the term for the derivative and use it to set the destination url
     // in the data array.
     $derivative_term = $this->utils->getTermForUri($this->configuration['derivative_term_uri']);
-    $route_params = ['node' => $entity->id(), 'media_type' => 'image', 'taxonomy_term' => $derivative_term->id()];
+    $route_params = [
+      'node' => $entity->id(),
+      'media_type' => 'image',
+      'taxonomy_term' => $derivative_term->id(),
+    ];
     $data['destination_uri'] = Url::fromRoute('islandora.media_source_put_to_node', $route_params)
       ->setAbsolute()
       ->toString();
@@ -154,7 +155,8 @@ class GenerateImageDerivative extends EmitEvent {
     $parts = explode('#', $this->configuration['derivative_term_uri']);
     if (count($parts) > 1) {
       $name = $entity->uuid() . ' - ' . $parts[1];
-    } else {
+    }
+    else {
       $name = $entity->uuid() . ' - Derivative';
     }
     $data['filename'] = "$name.$extension";

@@ -6,11 +6,13 @@ use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\flysystem\FlysystemFactory;
 use Drupal\islandora\IslandoraUtils;
 use Drupal\islandora\EventGenerator\EmitEvent;
 use Drupal\islandora\EventGenerator\EventGeneratorInterface;
 use Drupal\islandora\MediaSource\MediaSourceService;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
+use Drupal\token\Token;
 use Stomp\StatefulStomp;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -38,6 +40,20 @@ class GenerateImageDerivative extends EmitEvent {
    * @var \Drupal\islandora\MediaSource\MediaSourceService
    */
   protected $mediaSource;
+
+  /**
+   * Flysystem factory.
+   *
+   * @var \Drupal\flysystem\FlysystemFactory
+   */
+  protected $flysystemFactory;
+
+  /**
+   * Token replacement service.
+   *
+   * @var \Drupal\token\Token
+   */
+  protected $token;
 
   /**
    * Constructs a EmitEvent action.
@@ -73,7 +89,9 @@ class GenerateImageDerivative extends EmitEvent {
     StatefulStomp $stomp,
     JwtAuth $auth,
     IslandoraUtils $utils,
-    MediaSourceService $media_source
+    MediaSourceService $media_source,
+    FlysystemFactory $flysystem_factory,
+    Token $token
   ) {
     parent::__construct(
       $configuration,
@@ -87,6 +105,8 @@ class GenerateImageDerivative extends EmitEvent {
     );
     $this->utils = $utils;
     $this->mediaSource = $media_source;
+    $this->flysystemFactory = $flysystem_factory;
+    $this->token = $token;
   }
 
   /**
@@ -103,7 +123,9 @@ class GenerateImageDerivative extends EmitEvent {
       $container->get('islandora.stomp'),
       $container->get('jwt.authentication.jwt'),
       $container->get('islandora.utils'),
-      $container->get('islandora.media_source_service')
+      $container->get('islandora.media_source_service'),
+      $container->get('flysystem_factory'),
+      $container->get('token')
     );
   }
 
@@ -118,6 +140,8 @@ class GenerateImageDerivative extends EmitEvent {
       'derivative_term_uri' => '',
       'mimetype' => 'image/jpeg',
       'args' => '',
+      'scheme' => file_default_scheme(),
+      'path' => '[date:custom:Y]-[date:custom:m]',
     ];
   }
 
@@ -148,24 +172,24 @@ class GenerateImageDerivative extends EmitEvent {
       ->setAbsolute()
       ->toString();
 
-    // Generate a filename for the derivative.
+    // Generate an upload file path for the derivative.
     $parts = explode('/', $data['mimetype']);
     $extension = $parts[1];
 
-    $parts = explode('#', $this->configuration['derivative_term_uri']);
-    if (count($parts) > 1) {
-      $name = $entity->uuid() . ' - ' . $parts[1];
-    }
-    else {
-      $name = $entity->uuid() . ' - Derivative';
-    }
-    $data['filename'] = "$name.$extension";
+    $token_data = [
+      'node' => $entity,
+      'media' => $media,
+      'term' => $derivative_term,
+      'extension' => $extension,
+    ];
+    $path = $this->token->replace($data['path'], $token_data); 
+    $data['file_upload_uri'] = $data['scheme'] . '://' . $path;
 
     // Get rid of some config so we just pass along
     // what islandora-connector-houdini needs.
     unset($data['source_term_uri']);
     unset($data['derivative_term_uri']);
-
+dsm($data);
     return $data;
   }
 
@@ -206,6 +230,19 @@ class GenerateImageDerivative extends EmitEvent {
       '#default_value' => $this->configuration['args'],
       '#rows' => '8',
       '#description' => t('Additional command line arguments for ImageMagick convert (e.g. -resize 50%'),
+    ];
+    $form['scheme'] = [
+      '#type' => 'select',
+      '#title' => t('File system'),
+      '#options' => array_merge(['public'], $this->flysystemFactory->getSchemes()),
+      '#default_value' => $this->configuration['scheme'],
+      '#required' => TRUE,
+    ];
+    $form['path'] = [
+      '#type' => 'textfield',
+      '#title' => t('File path'),
+      '#default_value' => $this->configuration['path'],
+      '#description' => t('Path within the upload destination where files will be stored. Includes the filename and optional extension.'),
     ];
     return $form;
   }
@@ -256,6 +293,8 @@ class GenerateImageDerivative extends EmitEvent {
 
     $this->configuration['mimetype'] = $form_state->getValue('mimetype');
     $this->configuration['args'] = $form_state->getValue('args');
+    $this->configuration['scheme'] = $form_state->getValue('scheme');
+    $this->configuration['path'] = trim($form_state->getValue('path'), '\\/');
   }
 
 }

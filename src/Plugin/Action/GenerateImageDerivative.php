@@ -197,6 +197,9 @@ dsm($data);
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $schemes = array_merge(['public'], $this->flysystemFactory->getSchemes());
+    $scheme_options = array_combine($schemes, $schemes);
+
     $form = parent::buildConfigurationForm($form, $form_state);
     $form['event']['#disabled'] = 'disabled';
 
@@ -234,7 +237,7 @@ dsm($data);
     $form['scheme'] = [
       '#type' => 'select',
       '#title' => t('File system'),
-      '#options' => array_merge(['public'], $this->flysystemFactory->getSchemes()),
+      '#options' => $scheme_options,
       '#default_value' => $this->configuration['scheme'],
       '#required' => TRUE,
     ];

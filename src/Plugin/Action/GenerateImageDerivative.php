@@ -2,11 +2,11 @@
 
 namespace Drupal\islandora_image\Plugin\Action;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
-use Drupal\flysystem\FlysystemFactory;
 use Drupal\islandora\IslandoraUtils;
 use Drupal\islandora\EventGenerator\EmitEvent;
 use Drupal\islandora\EventGenerator\EventGeneratorInterface;
@@ -42,13 +42,6 @@ class GenerateImageDerivative extends EmitEvent {
   protected $mediaSource;
 
   /**
-   * Flysystem factory.
-   *
-   * @var \Drupal\flysystem\FlysystemFactory
-   */
-  protected $flysystemFactory;
-
-  /**
    * Token replacement service.
    *
    * @var \Drupal\token\Token
@@ -78,6 +71,8 @@ class GenerateImageDerivative extends EmitEvent {
    *   Islandora utility functions.
    * @param \Drupal\islandora\MediaSource\MediaSourceService $media_source
    *   Media source service.
+   * @param \Drupal\token\Token $token
+   *   Token service.
    */
   public function __construct(
     array $configuration,
@@ -90,7 +85,6 @@ class GenerateImageDerivative extends EmitEvent {
     JwtAuth $auth,
     IslandoraUtils $utils,
     MediaSourceService $media_source,
-    FlysystemFactory $flysystem_factory,
     Token $token
   ) {
     parent::__construct(
@@ -105,7 +99,6 @@ class GenerateImageDerivative extends EmitEvent {
     );
     $this->utils = $utils;
     $this->mediaSource = $media_source;
-    $this->flysystemFactory = $flysystem_factory;
     $this->token = $token;
   }
 
@@ -124,7 +117,6 @@ class GenerateImageDerivative extends EmitEvent {
       $container->get('jwt.authentication.jwt'),
       $container->get('islandora.utils'),
       $container->get('islandora.media_source_service'),
-      $container->get('flysystem_factory'),
       $container->get('token')
     );
   }
@@ -141,24 +133,22 @@ class GenerateImageDerivative extends EmitEvent {
       'mimetype' => 'image/jpeg',
       'args' => '',
       'scheme' => file_default_scheme(),
-      'path' => '[date:custom:Y]-[date:custom:m]',
+      'path' => '[date:custom:Y]-[date:custom:m]/[node:nid].jpg',
     ];
   }
 
   /**
    * Override this to return arbitrary data as an array to be json encoded.
    */
-  protected function generateData($entity) {
+  protected function generateData(EntityInterface $entity) {
     $data = parent::generateData($entity);
 
     // Find media belonging to node that has the source term, and set its file
     // url in the data array.
     $source_term = $this->utils->getTermForUri($this->configuration['source_term_uri']);
     $source_media = $this->utils->getMediaWithTerm($entity, $source_term);
-    $source_field = $this->mediaSource->getSourceFieldName($source_media->bundle());
-    $files = $source_media->get($source_field)->referencedEntities();
-    $file = reset($files);
-    $data['source_uri'] = $file->url('canonical', ['absolute' => TRUE]);
+    $source_file = $this->mediaSource->getSourceFile($source_media);
+    $data['source_uri'] = $source_file->url('canonical', ['absolute' => TRUE]);
 
     // Find the term for the derivative and use it to set the destination url
     // in the data array.
@@ -178,9 +168,8 @@ class GenerateImageDerivative extends EmitEvent {
 
     $token_data = [
       'node' => $entity,
-      'media' => $media,
+      'media' => $source_media,
       'term' => $derivative_term,
-      'extension' => $extension,
     ];
     $path = $this->token->replace($data['path'], $token_data); 
     $data['file_upload_uri'] = $data['scheme'] . '://' . $path;
@@ -189,7 +178,9 @@ class GenerateImageDerivative extends EmitEvent {
     // what islandora-connector-houdini needs.
     unset($data['source_term_uri']);
     unset($data['derivative_term_uri']);
-dsm($data);
+    unset($data['path']);
+    unset($data['scheme']);
+
     return $data;
   }
 
@@ -197,7 +188,7 @@ dsm($data);
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $schemes = array_merge(['public'], $this->flysystemFactory->getSchemes());
+    $schemes = $this->utils->getFilesystemSchemes();
     $scheme_options = array_combine($schemes, $schemes);
 
     $form = parent::buildConfigurationForm($form, $form_state);

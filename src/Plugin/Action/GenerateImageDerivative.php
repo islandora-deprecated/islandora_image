@@ -151,9 +151,11 @@ class GenerateImageDerivative extends EmitEvent {
     }
 
     $source_media = $this->utils->getMediaWithTerm($entity, $source_term);
-
-    $source_file = $this->mediaSource->getSourceFile($source_media);
+    if (!$source_media) {
+      throw new \RuntimeException("Could not locate source media", 500);
+    }
     
+    $source_file = $this->mediaSource->getSourceFile($source_media);
     if (!$source_file) {
       throw new \RuntimeException("Could not locate source file for media {$source_media->id()}", 500);
     }

@@ -146,13 +146,27 @@ class GenerateImageDerivative extends EmitEvent {
     // Find media belonging to node that has the source term, and set its file
     // url in the data array.
     $source_term = $this->utils->getTermForUri($this->configuration['source_term_uri']);
+    if (!$source_term) {
+      throw new \RuntimeException("Could not locate source term with uri" . $this->configuration['source_term_uri'], 500);
+    }
+
     $source_media = $this->utils->getMediaWithTerm($entity, $source_term);
+
     $source_file = $this->mediaSource->getSourceFile($source_media);
+    
+    if (!$source_file) {
+      throw new \RuntimeException("Could not locate source file for media {$source_media->id()}", 500);
+    }
+    
     $data['source_uri'] = $source_file->url('canonical', ['absolute' => TRUE]);
 
     // Find the term for the derivative and use it to set the destination url
     // in the data array.
     $derivative_term = $this->utils->getTermForUri($this->configuration['derivative_term_uri']);
+    if (!$source_term) {
+      throw new \RuntimeException("Could not locate derivative term with uri" . $this->configuration['derivative_term_uri'], 500);
+    }
+
     $route_params = [
       'node' => $entity->id(),
       'media_type' => 'image',

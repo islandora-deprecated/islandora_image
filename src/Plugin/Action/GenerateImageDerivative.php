@@ -171,7 +171,7 @@ class GenerateImageDerivative extends EmitEvent {
       'media' => $source_media,
       'term' => $derivative_term,
     ];
-    $path = $this->token->replace($data['path'], $token_data); 
+    $path = $this->token->replace($data['path'], $token_data);
     $data['file_upload_uri'] = $data['scheme'] . '://' . $path;
 
     // Get rid of some config so we just pass along

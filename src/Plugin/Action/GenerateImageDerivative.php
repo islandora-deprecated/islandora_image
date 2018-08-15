@@ -154,12 +154,12 @@ class GenerateImageDerivative extends EmitEvent {
     if (!$source_media) {
       throw new \RuntimeException("Could not locate source media", 500);
     }
-    
+
     $source_file = $this->mediaSource->getSourceFile($source_media);
     if (!$source_file) {
       throw new \RuntimeException("Could not locate source file for media {$source_media->id()}", 500);
     }
-    
+
     $data['source_uri'] = $source_file->url('canonical', ['absolute' => TRUE]);
 
     // Find the term for the derivative and use it to set the destination url

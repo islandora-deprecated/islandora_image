@@ -2,6 +2,7 @@
 
 namespace Drupal\islandora_image\Plugin\Action;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -11,6 +12,7 @@ use Drupal\islandora\EventGenerator\EmitEvent;
 use Drupal\islandora\EventGenerator\EventGeneratorInterface;
 use Drupal\islandora\MediaSource\MediaSourceService;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
+use Drupal\token\Token;
 use Stomp\StatefulStomp;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -40,6 +42,13 @@ class GenerateImageDerivative extends EmitEvent {
   protected $mediaSource;
 
   /**
+   * Token replacement service.
+   *
+   * @var \Drupal\token\Token
+   */
+  protected $token;
+
+  /**
    * Constructs a EmitEvent action.
    *
    * @param array $configuration
@@ -62,6 +71,8 @@ class GenerateImageDerivative extends EmitEvent {
    *   Islandora utility functions.
    * @param \Drupal\islandora\MediaSource\MediaSourceService $media_source
    *   Media source service.
+   * @param \Drupal\token\Token $token
+   *   Token service.
    */
   public function __construct(
     array $configuration,
@@ -73,7 +84,8 @@ class GenerateImageDerivative extends EmitEvent {
     StatefulStomp $stomp,
     JwtAuth $auth,
     IslandoraUtils $utils,
-    MediaSourceService $media_source
+    MediaSourceService $media_source,
+    Token $token
   ) {
     parent::__construct(
       $configuration,
@@ -87,6 +99,7 @@ class GenerateImageDerivative extends EmitEvent {
     );
     $this->utils = $utils;
     $this->mediaSource = $media_source;
+    $this->token = $token;
   }
 
   /**
@@ -103,7 +116,8 @@ class GenerateImageDerivative extends EmitEvent {
       $container->get('islandora.stomp'),
       $container->get('jwt.authentication.jwt'),
       $container->get('islandora.utils'),
-      $container->get('islandora.media_source_service')
+      $container->get('islandora.media_source_service'),
+      $container->get('token')
     );
   }
 
@@ -118,13 +132,15 @@ class GenerateImageDerivative extends EmitEvent {
       'derivative_term_uri' => '',
       'mimetype' => 'image/jpeg',
       'args' => '',
+      'scheme' => file_default_scheme(),
+      'path' => '[date:custom:Y]-[date:custom:m]/[node:nid].jpg',
     ];
   }
 
   /**
    * Override this to return arbitrary data as an array to be json encoded.
    */
-  protected function generateData($entity) {
+  protected function generateData(EntityInterface $entity) {
     $data = parent::generateData($entity);
 
     // Find media belonging to node that has the source term, and set its file
@@ -139,18 +155,12 @@ class GenerateImageDerivative extends EmitEvent {
       throw new \RuntimeException("Could not locate source media", 500);
     }
 
-    $source_field = $this->mediaSource->getSourceFieldName($source_media->bundle());
-    if (!$source_field) {
-      throw new \RuntimeException("Could not locate source field for media {$source_media->id()}", 500);
-    }
-
-    $files = $source_media->get($source_field)->referencedEntities();
-    $file = reset($files);
-    if (!$file) {
+    $source_file = $this->mediaSource->getSourceFile($source_media);
+    if (!$source_file) {
       throw new \RuntimeException("Could not locate source file for media {$source_media->id()}", 500);
     }
 
-    $data['source_uri'] = $file->url('canonical', ['absolute' => TRUE]);
+    $data['source_uri'] = $source_file->url('canonical', ['absolute' => TRUE]);
 
     // Find the term for the derivative and use it to set the destination url
     // in the data array.
@@ -168,23 +178,24 @@ class GenerateImageDerivative extends EmitEvent {
       ->setAbsolute()
       ->toString();
 
-    // Generate a filename for the derivative.
+    // Generate an upload file path for the derivative.
     $parts = explode('/', $data['mimetype']);
     $extension = $parts[1];
 
-    $parts = explode('#', $this->configuration['derivative_term_uri']);
-    if (count($parts) > 1) {
-      $name = $entity->uuid() . ' - ' . $parts[1];
-    }
-    else {
-      $name = $entity->uuid() . ' - Derivative';
-    }
-    $data['filename'] = "$name.$extension";
+    $token_data = [
+      'node' => $entity,
+      'media' => $source_media,
+      'term' => $derivative_term,
+    ];
+    $path = $this->token->replace($data['path'], $token_data);
+    $data['file_upload_uri'] = $data['scheme'] . '://' . $path;
 
     // Get rid of some config so we just pass along
     // what islandora-connector-houdini needs.
     unset($data['source_term_uri']);
     unset($data['derivative_term_uri']);
+    unset($data['path']);
+    unset($data['scheme']);
 
     return $data;
   }
@@ -193,6 +204,9 @@ class GenerateImageDerivative extends EmitEvent {
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $schemes = $this->utils->getFilesystemSchemes();
+    $scheme_options = array_combine($schemes, $schemes);
+
     $form = parent::buildConfigurationForm($form, $form_state);
     $form['event']['#disabled'] = 'disabled';
 
@@ -226,6 +240,19 @@ class GenerateImageDerivative extends EmitEvent {
       '#default_value' => $this->configuration['args'],
       '#rows' => '8',
       '#description' => t('Additional command line arguments for ImageMagick convert (e.g. -resize 50%'),
+    ];
+    $form['scheme'] = [
+      '#type' => 'select',
+      '#title' => t('File system'),
+      '#options' => $scheme_options,
+      '#default_value' => $this->configuration['scheme'],
+      '#required' => TRUE,
+    ];
+    $form['path'] = [
+      '#type' => 'textfield',
+      '#title' => t('File path'),
+      '#default_value' => $this->configuration['path'],
+      '#description' => t('Path within the upload destination where files will be stored. Includes the filename and optional extension.'),
     ];
     return $form;
   }
@@ -276,6 +303,8 @@ class GenerateImageDerivative extends EmitEvent {
 
     $this->configuration['mimetype'] = $form_state->getValue('mimetype');
     $this->configuration['args'] = $form_state->getValue('args');
+    $this->configuration['scheme'] = $form_state->getValue('scheme');
+    $this->configuration['path'] = trim($form_state->getValue('path'), '\\/');
   }
 
 }

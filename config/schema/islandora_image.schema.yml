@@ -20,3 +20,9 @@ action.configuration.generate_image_derivative:
     args:
       type: text
       label: 'Convert Arguments'
+    scheme:
+      type: text
+      label: 'Flysystem scheme'
+    path:
+      type: text
+      label: 'File path with extension'

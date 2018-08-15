@@ -116,6 +116,8 @@ class GenerateImageDerivativeTest extends IslandoraFunctionalTestBase {
     $this->getSession()->getPage()->fillField("edit-derivative-term", $this->serviceFileTerm->label());
     $this->getSession()->getPage()->fillField('edit-mimetype', "image/jpeg");
     $this->getSession()->getPage()->fillField('edit-args', "-thumbnail 20x20");
+    $this->getSession()->getPage()->fillField('edit-scheme', "public");
+    $this->getSession()->getPage()->fillField('edit-path', "derp.jpeg");
     $this->getSession()->getPage()->pressButton(t('Save'));
     $this->assertSession()->statusCodeEquals(200);
 
@@ -180,8 +182,8 @@ class GenerateImageDerivativeTest extends IslandoraFunctionalTestBase {
           "Expected destination uri should reference both node and term"
         );
         $this->assertTrue(
-          strpos($content['filename'], "ServiceFile.jpeg") !== FALSE,
-          "Expected filename should contain the name of the derivative term and proper extension"
+          strpos($content['file_upload_uri'], "public://derp.jpeg") !== FALSE,
+          "Expected file upload uri should contain the scheme and path of the derivative"
         );
 
         $this->assertTrue($content['mimetype'] == 'image/jpeg', "Expected mimetype 'image/jpeg', received {$content['mimetype']}");

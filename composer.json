@@ -12,7 +12,7 @@
     "irc": "irc://irc.freenode.net/islandora"
   },
   "require": {
-    "islandora/islandora": "dev-8.x-1.x",
+    "islandora/islandora": "dev-issue-888",
     "drupal/token" : "^1.3"
   }
 }

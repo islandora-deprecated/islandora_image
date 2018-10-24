@@ -1,5 +1,5 @@
 # ![Islandora Image](https://cloud.githubusercontent.com/assets/2371345/24199472/6f7bfb7a-0ee8-11e7-9c94-754762fd5566.png) Islandora Image
-[![Build Status](https://travis-ci.org/Islandora-CLAW/islandora_image.png?branch=8.x-1.x)](https://travis-ci.org/Islandora-CLAW/islandora_image)
+[![Build Status](https://travis-ci.com/Islandora-CLAW/islandora_image.png?branch=8.x-1.x)](https://travis-ci.com/Islandora-CLAW/islandora_image)
 [![Contribution Guidelines](http://img.shields.io/badge/CONTRIBUTING-Guidelines-blue.svg)](./CONTRIBUTING.md)
 [![LICENSE](https://img.shields.io/badge/license-GPLv2-blue.svg?style=flat-square)](./LICENSE)
 
